@@ -43,7 +43,7 @@ public class Enemy {
 			lt = true; 
 			y+=r;
 			
-		} else if((x-r) <= 0) {
+		} else if((x) <= 0) {
 			
 			lt = false; 
 			y+=r;
@@ -74,7 +74,7 @@ public class Enemy {
 	public boolean getLt() {return lt;}
 	public void setLt(boolean b) {lt = b;}
 	
-	public double getX() {return x;}
+	public double getX() {return x; }
 	public double getY() {return y;}
 	public int getR() {return r;}
 

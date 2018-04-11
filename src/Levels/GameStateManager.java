@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+import Game.CollisionDetection;
 import Game.Enemy;
 import Game.GamePanel;
 import Game.Player;
@@ -23,6 +24,7 @@ public class GameStateManager {
 	private ArrayList<Enemy> e;
 	private ArrayList<Bullets> bullets;
 	private Player p;
+	private CollisionDetection cd;
 	
 	private int choice = 0;
 	
@@ -33,6 +35,7 @@ public class GameStateManager {
 		e = new ArrayList<Enemy>();
 		bullets = new ArrayList<Bullets>();
 		p = new Player();
+		cd = new CollisionDetection();
 	}
 	
 	public void loadLevel(int l) {
@@ -43,13 +46,10 @@ public class GameStateManager {
 		switch(level) {
 		
 			case 0:
-				e.add(new Enemy(200, 30, 1));
-				e.add(new Enemy(250, 30, 1));
-				e.add(new Enemy(300, 30, 1));
-				
-				e.add(new Enemy(15, 30, 0));
-				e.add(new Enemy(65, 30, 0));
-				e.add(new Enemy(115, 30, 0));
+				for(int i = 0; i < 10; i++){
+					e.add(new Enemy(2+i*35, 30, 1));
+				}
+
 				break;
 		
 			case 1:
@@ -90,9 +90,20 @@ public class GameStateManager {
 				loadLevel(level++);
 			} else {
 				
+				for(int j = 0; j < e.size(); j++){
+					for(int k = j+1; k <e.size(); k++){
+						if(cd.enemyCollision(e.get(j), e.get(k))){
+							e.get(j).setLt(!(e.get(j).getLt()));
+							e.get(k).setLt(!(e.get(k).getLt()));
+						}
+					}
+				}
+				
 				for(int i = 0; i < e.size(); i++) {
 					e.get(i).update();
 				}
+				
+				
 				p.update();
 				
 				

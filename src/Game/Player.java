@@ -25,7 +25,7 @@ public class Player {
 		g.setColor(new Color(255,255,255));
 		g.fillOval((int)x, (int)y, r, r);
 		g.setColor(new Color(100,100,100));
-		g.fillOval((int)x, (int)y, r/2, r/2);
+		g.fillOval((int)x+r/4, (int)y+r/4, r/2, r/2);
 		
 	}
 
