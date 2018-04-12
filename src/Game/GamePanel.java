@@ -12,6 +12,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
+import Graphics.ImageManager;
 import Levels.GameStateManager;
 
 
@@ -34,6 +35,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	private Graphics2D g;
 
 	private GameStateManager gsm;
+	private ImageManager im;
 
 
 	public GamePanel() {
@@ -63,8 +65,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		g = (Graphics2D) image.getGraphics();
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-		
-		gsm = new GameStateManager();
+		im = new ImageManager();
+		gsm = new GameStateManager(im);
 
 		running = true;
 

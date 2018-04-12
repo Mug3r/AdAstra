@@ -9,8 +9,8 @@ import javax.imageio.ImageIO;
 
 public class ImageManager {
 	
-	public static BufferedImage[] playerSprites = load("/Sprites/Player/Ship.gif", 30, 30);
-	public static BufferedImage[] alienSprites = load("/Sprites/Enemies/Aliens.gif", 30, 60);
+	public static BufferedImage[] playerSprites = load("/Sprites/Player/Ship.gif", 60, 60);
+	public static BufferedImage[] alienSprites = load("/Sprites/Enemies/Aliens.gif", 60, 60);
 
 	public static BufferedImage[] load(String s, int w, int h) {
 		BufferedImage[] ret;

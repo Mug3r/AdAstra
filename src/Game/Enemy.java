@@ -3,15 +3,19 @@ package Game;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-public class Enemy {
+import Graphics.ImageManager;
 
-	private int type, r, health;
+public class Enemy extends MapObject {
+
+	private int type, health;
 	private double speed;
 	private double x, y;
 	private boolean lt = false;
 	
-	public Enemy(int x, int y, int t) {
+	public Enemy(double x, double y, int t, ImageManager im) {
 	
+		super(x,y, im);
+		
 		this.x = x;
 		this.y = y;
 		this.type = t;
@@ -20,6 +24,10 @@ public class Enemy {
 			
 		case 0:
 			r = 15;
+			w = 0;
+			h = 0;
+			cw = 0;
+			ch = 0;
 			health = 1;
 			speed = 1;
 			lt = true;
@@ -27,6 +35,10 @@ public class Enemy {
 		
 		case 1:
 			r = 30;
+			w = 0;
+			h = 0;
+			cw = 0;
+			ch = 0;
 			health = 2;
 			speed = 3;
 			lt = false;
@@ -37,6 +49,10 @@ public class Enemy {
 	}
 	
 	public void update() {
+		
+		if(rotatingLt){
+			angle += 1;
+		}
 		
 		if((x+r) >= GamePanel.WIDTH) {
 			

@@ -3,7 +3,9 @@ package Game;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-public class Player {
+import Graphics.ImageManager;
+
+public class Player extends MapObject {
 	
 	int r;
 	
@@ -11,7 +13,10 @@ public class Player {
 	private double x, y;
 	private boolean lt = false, rt = false;
 	
-	public Player() {
+	
+	public Player(ImageManager im) {
+		
+		super(288.5, 750, im);
 		
 		speed = 3.5;
 		r = 20;

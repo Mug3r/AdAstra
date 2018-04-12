@@ -10,6 +10,7 @@ import Game.CollisionDetection;
 import Game.Enemy;
 import Game.GamePanel;
 import Game.Player;
+import Graphics.ImageManager;
 import Projectiles.Bullets;
 
 public class GameStateManager {
@@ -25,17 +26,19 @@ public class GameStateManager {
 	private ArrayList<Bullets> bullets;
 	private Player p;
 	private CollisionDetection cd;
+	private ImageManager im;
 	
 	private int choice = 0;
 	
-	public GameStateManager() {
+	public GameStateManager(ImageManager im) {
 		
 		state = STATES[0];
 		level = 0;
 		e = new ArrayList<Enemy>();
 		bullets = new ArrayList<Bullets>();
-		p = new Player();
+		p = new Player(im);
 		cd = new CollisionDetection();
+		this.im = im;
 	}
 	
 	public void loadLevel(int l) {
@@ -47,7 +50,7 @@ public class GameStateManager {
 		
 			case 0:
 				for(int i = 0; i < 10; i++){
-					e.add(new Enemy(2+i*35, 30, 1));
+					e.add(new Enemy(2+i*35, 30, 1, im));
 				}
 
 				break;
@@ -91,8 +94,8 @@ public class GameStateManager {
 			} else {
 				
 				for(int j = 0; j < e.size(); j++){
-					for(int k = j+1; k <e.size(); k++){
-						if(cd.enemyCollision(e.get(j), e.get(k))){
+					for(int k = 1; k <e.size(); k++){
+						if(cd.collidesWith(e.get(j), e.get(k))){
 							e.get(j).setLt(!(e.get(j).getLt()));
 							e.get(k).setLt(!(e.get(k).getLt()));
 						}
