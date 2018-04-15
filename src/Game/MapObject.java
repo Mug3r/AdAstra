@@ -23,7 +23,7 @@ public abstract class MapObject {
 	
 	private ImageManager im;
 	
-	private BufferedImage sprite;
+	protected BufferedImage sprite;
 	
 	public MapObject(double x, double y, ImageManager im){
 		
@@ -54,8 +54,8 @@ public abstract class MapObject {
 		
 	}
 	
-	public void Update(){}
-	public void Draw(Graphics2D g){
+	public void update(){}
+	public void draw(Graphics2D g){
 		
 		g.rotate(angle);
 		g.drawImage(sprite, (int)x, (int)y, w, h, null);
