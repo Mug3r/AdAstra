@@ -9,8 +9,13 @@ import javax.imageio.ImageIO;
 
 public class ImageManager {
 	
-	public BufferedImage[] playerSprites = load("/playerSprites.png", 60, 60);
-	public static BufferedImage[] alienSprites = load("/alienSprites.png", 60, 60);
+	public static BufferedImage[] playerSprites;
+	public static BufferedImage[] alienSprites;
+	
+	public ImageManager(){
+		playerSprites = load("/playerSprites.png", 60, 60);
+		alienSprites = load("/alienSprites.png", 60, 60);
+	}
 
 	public static BufferedImage[] load(String s, int w, int h) {
 		BufferedImage[] ret;
@@ -21,6 +26,7 @@ public class ImageManager {
 			
 				for(int i = 0; i < width; i++) {
 					ret[i] = spritesheet.getSubimage(i * w, 0, w, h);
+					System.out.println("loaded");
 				}
 			
 			return ret;

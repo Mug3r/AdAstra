@@ -7,25 +7,20 @@ import Graphics.ImageManager;
 
 public class Enemy extends MapObject {
 
-	private int type, health;
-	private double speed;
-	private double x, y;
-	private boolean lt = false;
+	private int type;
 	
-	public Enemy(double x, double y, int t, ImageManager im) {
+	public Enemy(int x, int y, int t, ImageManager im) {
 	
 		super(x,y, im);
 		
-		this.x = x;
-		this.y = y;
 		this.type = t;
-		
+		sprite = im.alienSprites[t];
 		switch(t) {
 			
 		case 0:
-			r = 15;
-			w = 0;
-			h = 0;
+			r=0;
+			w = 30;
+			h = 30;
 			cw = 0;
 			ch = 0;
 			health = 1;
@@ -34,9 +29,9 @@ public class Enemy extends MapObject {
 			break;
 		
 		case 1:
-			r = 30;
-			w = 0;
-			h = 0;
+			r=0;
+			w = 30;
+			h = 30;
 			cw = 0;
 			ch = 0;
 			health = 2;
@@ -54,44 +49,18 @@ public class Enemy extends MapObject {
 			angle += 1;
 		}
 		
-		if((x+r) >= GamePanel.WIDTH) {
-			
-			lt = true; 
-			y+=r;
-			
-		} else if((x) <= 0) {
-			
-			lt = false; 
-			y+=r;
-			
-		}
 		
-		if(!lt) {x = (x+speed);} else {x = (x-speed);} 
+		if(!lt) {x +=speed;} else {x -= speed;} 
 		
 	}
 	
-	public void draw(Graphics2D g) {
-		switch(type) {
-		
-			case 0:
-				g.setColor(new Color(120,100,0));
-				g.fillOval((int)x, (int)y, r, r);
-				break;
-				
-			case 1:
-				g.setColor(new Color(220,0,120));
-				g.fillOval((int)x, (int)y, r, r);
-				break;
-				
-		}
 		
 		
-	}
+	
 	public boolean getLt() {return lt;}
 	public void setLt(boolean b) {lt = b;}
 	
-	public double getX() {return x; }
-	public double getY() {return y;}
+
 	public int getR() {return r;}
 
 	

@@ -142,6 +142,7 @@ public class CollisionDetection {
 			}
 			
 			else if((r1.intersects(r2))){
+				
 				return 2;
 			}
 			

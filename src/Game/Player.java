@@ -7,34 +7,23 @@ import Graphics.ImageManager;
 
 public class Player extends MapObject {
 	
-	int r;
-	
-	private double speed;
-	private double x, y;
 	private boolean lt = false, rt = false;
 	
 	
 	public Player(ImageManager im) {
 		
-		super(288.5, 750, im);
+		super(288, 690, im);
+		level  = 0;
+		sprite = im.playerSprites[level];
 		
-		sprite = im.playerSprites[0];
-		
-		speed = 3.5;
-		r = 20;
-		x = 288.5;
-		y = 750;
+		speed = 4;
+		w = 80;
+		h  = 90;
+		cw = 50;
+		ch = 50;
 		
 	}
 
-	/*public void draw(Graphics2D g) {
-		
-		g.setColor(new Color(255,255,255));
-		g.fillOval((int)x, (int)y, r, r);
-		g.setColor(new Color(100,100,100));
-		g.fillOval((int)x+r/4, (int)y+r/4, r/2, r/2);
-		
-	}*/
 
 	public void update() {
 		

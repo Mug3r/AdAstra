@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+import Game.Cluster;
 import Game.CollisionDetection;
 import Game.Enemy;
 import Game.GamePanel;
@@ -23,6 +24,7 @@ public class GameStateManager {
 	private int state;
 	private int level;
 	private ArrayList<Enemy> e;
+	private ArrayList<Cluster> c;
 	private ArrayList<Bullets> bullets;
 	private Player p;
 	private CollisionDetection cd;
@@ -34,7 +36,7 @@ public class GameStateManager {
 		
 		state = STATES[0];
 		level = 0;
-		e = new ArrayList<Enemy>();
+		c = new ArrayList<Cluster>();
 		bullets = new ArrayList<Bullets>();
 		p = new Player(im);
 		cd = new CollisionDetection();
@@ -49,9 +51,8 @@ public class GameStateManager {
 		switch(level) {
 		
 			case 0:
-				for(int i = 0; i < 10; i++){
-					e.add(new Enemy(2+i*35, 30, 1, im));
-				}
+				
+				c.add(new Cluster(10,10,im));
 
 				break;
 		
@@ -89,21 +90,13 @@ public class GameStateManager {
 		
 		if(state == GAMESTATE) {
 			
-			if(e.size() <= 0) {
+			if(c.size() <= 0) {
 				loadLevel(level++);
 			} else {
 				
-				for(int j = 0; j < e.size(); j++){
-					for(int k = 1; k <e.size(); k++){
-						if(cd.collidesWith(e.get(j), e.get(k))){
-							e.get(j).setLt(!(e.get(j).getLt()));
-							e.get(k).setLt(!(e.get(k).getLt()));
-						}
-					}
-				}
 				
-				for(int i = 0; i < e.size(); i++) {
-					e.get(i).update();
+				for(int i =0; i < c.size(); i++){
+				c.get(i).update();
 				}
 				
 				
@@ -162,8 +155,8 @@ public class GameStateManager {
 				g.fillRect(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT);
 				g.setColor(new Color(255,255,0));
 				g.drawLine(0, 730, 600, 730);
-				for(int i = 0; i < e.size(); i++) {
-					e.get(i).draw(g);
+				for(int i = 0; i < c.size(); i++) {
+					c.get(i).draw(g);
 				}
 				p.draw(g);
 				

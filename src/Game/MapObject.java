@@ -7,9 +7,15 @@ import Graphics.ImageManager;
 
 public abstract class MapObject {
 	
-	protected double x;
-	protected double y;
-	protected double speed;
+	protected int x;
+	protected int y;
+	protected int speed;
+	
+	protected int health;
+	
+	protected boolean lt, rt;
+	protected int level = 0;
+	protected int type = 0;
 	
 	protected int w;
 	protected int h;
@@ -21,22 +27,25 @@ public abstract class MapObject {
 	protected boolean rotatingLt;
 	protected boolean rotatingRt;
 	
-	private ImageManager im;
+	protected ImageManager im;
 	
 	protected BufferedImage sprite;
 	
-	public MapObject(double x, double y, ImageManager im){
+	public MapObject(int sx, int sy, ImageManager im){
 		
-		this.x = x;
-		this.y = y;
+		x = sx;
+		y = sy;
 		this.im = im;
+		
+		lt = false;
+		rt = false;
 		
 		rotatingLt = false;
 		rotatingRt = false;
 		
 	}
 	
-	public MapObject(double x, double y, double speed, int w, int h, int cw, int ch, int r, double angle, ImageManager im){
+	public MapObject(int x, int y, int speed, int w, int h, int cw, int ch, int r, double angle, ImageManager im){
 		
 		this.x = x;
 		this.y = y;
@@ -66,21 +75,29 @@ public abstract class MapObject {
 	public boolean isRect(){		
 		if((this.w == 0) && (this.h == 0)){return false;}
 		else{return true;}
+		
 	}
 	
-	public double getX() {return x;}
-	public double getY() {return y;}
-	public double getSpeed() {return speed;}	
+	public void levelUp(int level){
+		
+		this.level += level;
+		
+	}
+	
+	public int getX() {return x;}
+	public int getY() {return y;}
+	public int getSpeed() {return speed;}	
 	public int getW() {return w;}	
 	public int getH() {return h;}	
 	public int getCw() {return cw;}	
 	public int getCh() {return ch;}	
 	public int getR() {return r;}
+	public int getLevel(){return level;}
 	
 	
-	public void setX(double x) {this.x = x;}
-	public void setY(double y) {this.y = y;}
-	public void setSpeed(double speed) {this.speed = speed;}
+	public void setX(int x) {this.x = x;}
+	public void setY(int y) {this.y = y;}
+	public void setSpeed(int speed) {this.speed = speed;}
 	public void setW(int w) {this.w = w;}
 	public void setH(int h) {this.h = h;}
 	public void setCw(int cw) {this.cw = cw;}
