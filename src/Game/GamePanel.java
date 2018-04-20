@@ -20,8 +20,8 @@ import Levels.GameStateManager;
 public class GamePanel extends JPanel implements Runnable, KeyListener{
 
 	
-	public static final int WIDTH = 600;
-	public static final int HEIGHT = 800;
+	public static final int WIDTH = 900;
+	public static final int HEIGHT = 1000;
 	public static final int SCALE = 1;
 
 	
@@ -66,7 +66,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		im = new ImageManager();
-		gsm = new GameStateManager(im);
+		gsm = new GameStateManager();
 
 		running = true;
 

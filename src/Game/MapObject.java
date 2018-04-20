@@ -26,26 +26,26 @@ public abstract class MapObject {
 	protected double angle;
 	protected boolean rotatingLt;
 	protected boolean rotatingRt;
+	protected boolean isDead;
 	
-	protected ImageManager im;
 	
 	protected BufferedImage sprite;
 	
-	public MapObject(int sx, int sy, ImageManager im){
+	public MapObject(int sx, int sy){
 		
 		x = sx;
 		y = sy;
-		this.im = im;
 		
 		lt = false;
 		rt = false;
 		
 		rotatingLt = false;
 		rotatingRt = false;
+		isDead = false;
 		
 	}
 	
-	public MapObject(int x, int y, int speed, int w, int h, int cw, int ch, int r, double angle, ImageManager im){
+	public MapObject(int x, int y, int speed, int w, int h, int cw, int ch, int r, double angle){
 		
 		this.x = x;
 		this.y = y;
@@ -56,7 +56,8 @@ public abstract class MapObject {
 		this.ch = ch;
 		this.r = r;
 		this.angle = angle;
-		this.im = im;
+		
+		isDead = false;
 		
 		rotatingLt = false;
 		rotatingRt = false;
@@ -66,9 +67,11 @@ public abstract class MapObject {
 	public void update(){}
 	public void draw(Graphics2D g){
 		
-		g.rotate(angle);
-		g.drawImage(sprite, (int)x, (int)y, w, h, null);
-		g.rotate(-(angle));
+		if(!isDead){
+			g.rotate(angle);
+			g.drawImage(sprite, (int)x, (int)y, w, h, null);
+			g.rotate(-(angle));
+		}
 	
 	}	
 	
@@ -83,6 +86,8 @@ public abstract class MapObject {
 		this.level += level;
 		
 	}
+	
+	public void hit(int d){health -= d;}
 	
 	public int getX() {return x;}
 	public int getY() {return y;}

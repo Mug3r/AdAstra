@@ -10,11 +10,11 @@ public class Player extends MapObject {
 	private boolean lt = false, rt = false;
 	
 	
-	public Player(ImageManager im) {
+	public Player() {
 		
-		super(288, 690, im);
+		super(450, 900);
 		level  = 0;
-		sprite = im.playerSprites[level];
+		sprite = ImageManager.playerSprites[level];
 		
 		speed = 4;
 		w = 80;

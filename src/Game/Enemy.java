@@ -9,12 +9,12 @@ public class Enemy extends MapObject {
 
 	private int type;
 	
-	public Enemy(int x, int y, int t, ImageManager im) {
+	public Enemy(int x, int y, int t) {
 	
-		super(x,y, im);
+		super(x,y);
 		
 		this.type = t;
-		sprite = im.alienSprites[t];
+		sprite = ImageManager.alienSprites[t];
 		switch(t) {
 			
 		case 0:
@@ -45,17 +45,28 @@ public class Enemy extends MapObject {
 	
 	public void update() {
 		
-		if(rotatingLt){
-			angle += 1;
+		if(health <= 0){
+			isDead = true;
+			return;
 		}
 		
+		if(!isDead){
+			
+			if(rotatingLt){
+				angle += 1;
+			}
 		
-		if(!lt) {x +=speed;} else {x -= speed;} 
+		
+			if(!lt) {x +=speed;} else {x -= speed;} 
+			
+		} else{return;}
 		
 	}
 	
 		
-		
+	public boolean collidesWith(MapObject o){
+		return CollisionDetection.collidesWith(this, o);
+	}
 	
 	public boolean getLt() {return lt;}
 	public void setLt(boolean b) {lt = b;}

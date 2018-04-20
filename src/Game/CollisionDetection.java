@@ -4,30 +4,8 @@ import java.awt.Rectangle;
 
 public class CollisionDetection {
 
-	/*public boolean enemyCollision(Enemy a, Enemy b){
 		
-            double ax = a.getX();
-            double ay = a.getY();
-            double ar = a.getR();
-            
-            double bx = b.getX();
-            double by = b.getY();
-            double br = b.getR();
-            
-            double dx = bx - ax;
-            double dy = by - ay;
-            double dist = Math.sqrt(dx*dx+dy*dy);
-            
-            if(dist < (br/2) + (ar/2)){
-      
-            	return true;
-               
-            }
-            
-            else return false;
-        }*/
-		
-		public boolean collidesWith(MapObject o1, MapObject o2){
+		public static boolean collidesWith(MapObject o1, MapObject o2){
 			
 			switch(RectangularCollsion(o1,o2)){
 				
@@ -48,7 +26,7 @@ public class CollisionDetection {
 			
 		}
 		
-		public boolean circularCollision(MapObject o1, MapObject o2){
+		public static boolean circularCollision(MapObject o1, MapObject o2){
 			
 			double ax = o1.getX();
             double ay = o1.getY();
@@ -78,7 +56,7 @@ public class CollisionDetection {
 			
 		}
 		
-		public boolean circleToRectCollision(MapObject o1, MapObject o2){
+		public static boolean circleToRectCollision(MapObject o1, MapObject o2){
 			
 			if(o1.isRect()){
 				
@@ -128,7 +106,7 @@ public class CollisionDetection {
 			
 		}
 		
-		public int RectangularCollsion(MapObject o1, MapObject o2){
+		public static int RectangularCollsion(MapObject o1, MapObject o2){
 			
 			Rectangle r1 = getRectangle(o1);
 			Rectangle r2 = getRectangle(o2);
@@ -149,11 +127,10 @@ public class CollisionDetection {
 			return 3;
 		}
 		
-		public Rectangle getRectangle(MapObject o){
-			Rectangle r;
+		public static Rectangle getRectangle(MapObject o){
 			if(o.isRect()){
-				return  r = new Rectangle((int)o.getX(), (int)o.getY(), o.getW(), o.getH());
-			} else return  r = new Rectangle(0,0,0,0);
+				return new Rectangle((int)o.getX(), (int)o.getY(), o.getW(), o.getH());
+			} else return new Rectangle(0,0,0,0);
 			
 		}
 }
