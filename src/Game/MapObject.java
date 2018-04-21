@@ -17,8 +17,8 @@ public abstract class MapObject {
 	protected int level = 0;
 	protected int type = 0;
 	
-	protected int w;
-	protected int h;
+	protected static int w;
+	protected static int h;
 	protected int cw;
 	protected int ch;
 	protected int r;

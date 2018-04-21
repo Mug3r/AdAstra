@@ -12,11 +12,16 @@ public class ImageManager {
 	public static BufferedImage[] playerSprites;
 	public static BufferedImage[] alienSprites;
 	public static BufferedImage[] backgrounds;
+	public static BufferedImage MainMenu, Title;
+	public static BufferedImage MainMenuStrip;
 	
 	public ImageManager(){
 		playerSprites = load("/playerSprites.png", 60, 60);
 		alienSprites = load("/alienSprites.png", 60, 60);
 		backgrounds = load("/backgrounds.png", 1800, 1000);
+		MainMenu = ImageLoader.loadImage("/MainMenu.png");
+		MainMenuStrip = ImageLoader.loadImage("/Strip.png");
+		Title = ImageLoader.loadImage("/Title.png");
 	}
 
 	public static BufferedImage[] load(String s, int w, int h) {

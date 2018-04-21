@@ -1,7 +1,10 @@
 package Levels;
 
+import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -17,6 +20,8 @@ public abstract class Level {
 	protected ArrayList<Cluster> Clusters;
 	protected ArrayList<Bullets> b;
 	protected ArrayList<Enemy> sE;
+	protected int mouseX, mouseY;
+	protected Point mouse;
 
 	private int type = 0;
 
@@ -24,11 +29,13 @@ public abstract class Level {
 		Clusters = new ArrayList<Cluster>();
 		b = new ArrayList<Bullets>();
 		sE = new ArrayList<Enemy>();
+		mouse = new Point(0,0);
 	}
 
 	public Level(int type, int back){
 
 		this.type = type;
+		mouse = new Point(0,0);
 
 		switch(type){
 
@@ -52,6 +59,9 @@ public abstract class Level {
 	public void Update(){
 
 		bg.Update();
+		
+		mouseX = (int) mouse.getX();
+		mouseY = (int) mouse.getY();
 
 		if(type == 1){
 
@@ -113,6 +123,30 @@ public abstract class Level {
 
 	public void keyRelease(KeyEvent e){
 
+	}
+
+	public void mouseRelease(MouseEvent e) {
+				
+	}
+
+	public void mouseExit(MouseEvent e) {
+		
+	}
+
+	public void mouseEnter(MouseEvent e) {
+		
+	}
+
+	public void mouseClick(MouseEvent e) {
+		
+	}
+
+	public void mouseMove(MouseEvent e) {
+		mouse = e.getPoint();
+	}
+
+	public void mousePress(MouseEvent e) {
+		
 	}
 
 }

@@ -10,9 +10,9 @@ public class Player extends MapObject {
 	private boolean lt = false, rt = false;
 	
 	
-	public Player() {
+	public Player() {	
 		
-		super(450, 900);
+		super((GamePanel.WIDTH - 80/2), (GamePanel.HEIGHT - (100)));
 		level  = 0;
 		sprite = ImageManager.playerSprites[level];
 		

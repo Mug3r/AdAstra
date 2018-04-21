@@ -11,44 +11,51 @@ import Graphics.ImageManager;
 public class MainMenu extends Level{
 
 	private int choice;
+	private Background strip;
 
 	public MainMenu(ImageManager im){
-		super(0, 1);
 		choice = 0;
-		bg.setdX(-1);
+		strip = new Background(ImageManager.MainMenuStrip);
+		strip.setdX(0.6);
+		strip.setdY(0);
+		bg = new Background(ImageManager.MainMenu);
+		bg.setdX(-0.5);
 		bg.setdY(0);
 	}
 
 	public void Update(){
 		super.Update();
+		strip.Update();
 	}
 
 	public void draw(Graphics2D g){
 		
 		super.draw(g);
+		strip.Render(g);
+		g.drawImage(ImageManager.Title, 0,0,null);
 		
-		Font stringFont = new Font( "SansSerif", Font.PLAIN, 26 );
+		Font stringFont = new Font( "Segoe UI Light", Font.PLAIN, 40 );
 
 		g.setFont(stringFont);
 
 		switch(choice) {
 
 		case 0:
-			g.setColor(new Color(255,255,0));
-			g.drawString("Play", 430, 680);
-			g.fillRect(370, 660, 20, 20);
-			g.drawRect(400, 640, 120, 60);
-			g.setColor(new Color(255,255,255));
+					
+			g.fillRect(0, 640, 900, 60);
+			g.setColor(new Color(30,49,86));
+			g.drawString("Play", 430, 680);	
+			g.setColor(new Color(255,255,255,180));
 			g.drawString("Quit", 430, 740);
 			break;
 
 		case 1:
 			g.setColor(new Color(255,255,255));
 			g.drawString("Play", 430, 680);
-			g.setColor(new Color(255,255,0));
+			g.setColor(new Color(255,255,255,180));
+			g.fillRect(0, 700, 900, 60);
+			g.setColor(new Color(30,49,86));
 			g.drawString("Quit", 430, 740);
-			g.fillRect(370, 720, 20, 20);
-			g.drawRect(400, 700, 120, 60);
 			break;
 
 		}

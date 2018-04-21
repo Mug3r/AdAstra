@@ -1,30 +1,38 @@
 package Game;
 
+import java.awt.AWTException;
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.HeadlessException;
 import java.awt.RenderingHints;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
+import Graphics.ImageLoader;
 import Graphics.ImageManager;
 import Levels.GameStateManager;
 
 
 
-public class GamePanel extends JPanel implements Runnable, KeyListener{
+public class GamePanel extends JPanel implements Runnable, KeyListener, MouseListener, MouseMotionListener{
 
 	
 	public static final int WIDTH = 900;
-	public static final int HEIGHT = 1000;
+	public static int HEIGHT;
 	public static final int SCALE = 1;
 
-	
+
 	private Thread thread;
 	private boolean running;
 	private int FPS = 60;
@@ -41,6 +49,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public GamePanel() {
 
 		super();
+		
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		
+		if(screenSize.getHeight() < HEIGHT){
+			HEIGHT = (int) screenSize.getHeight();
+		}
+		
 		setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 		setFocusable(true);
 		requestFocus();
@@ -66,7 +81,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		im = new ImageManager();
-		gsm = new GameStateManager();
+		gsm = new GameStateManager();		
 
 		running = true;
 
@@ -129,5 +144,19 @@ public void run(){
 	public void keyTyped(KeyEvent key){}
 	public void keyPressed(KeyEvent key){gsm.keyPressed(key);}
 	public void keyReleased(KeyEvent key){gsm.keyReleased(key);}
+
+
+	public void mouseDragged(MouseEvent arg0) {}
+	public void mouseMoved(MouseEvent arg0) {gsm.mouseMoved(arg0);}	
+	public void mouseClicked(MouseEvent arg0) {gsm.mouseClicked(arg0);}
+	
+	public void mouseEntered(MouseEvent arg0) {
+		this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+		gsm.mouseEntered(arg0);
+	}
+	
+	public void mouseExited(MouseEvent arg0) {gsm.mouseExited(arg0);}
+	public void mousePressed(MouseEvent arg0) {gsm.mousePressed(arg0);}
+	public void mouseReleased(MouseEvent arg0) {gsm.mouseReleased(arg0);}
 
 }
