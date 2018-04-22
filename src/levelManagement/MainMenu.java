@@ -1,33 +1,39 @@
-package Levels;
+package levelManagement;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
+import Game.GamePanel;
 import Graphics.ImageManager;
 
-public class PauseMenu extends Level {
+public class MainMenu extends Level{
 
 	private int choice;
 	private Background strip;
 
-
-	public PauseMenu(ImageManager im) {
-		super(0,0);
-		bg = null;
+	public MainMenu(){
 		choice = 0;
 		strip = new Background(ImageManager.MainMenuStrip);
 		strip.setdX(0.6);
 		strip.setdY(0);
+		bg = new Background(ImageManager.stars);
+		bg.setdX(-0.5);
+		bg.setdY(0);
+	}
 
+	public void Update(){
+		super.Update();
+		strip.Update();
 	}
 
 	public void draw(Graphics2D g){
-
+		
+		super.draw(g);
 		strip.Render(g);
 		g.drawImage(ImageManager.Title, 0,0,null);
-
+		
 		Font stringFont = new Font( "Segoe UI Light", Font.PLAIN, 40 );
 
 		g.setFont(stringFont);
@@ -35,17 +41,17 @@ public class PauseMenu extends Level {
 		switch(choice) {
 
 		case 0:
-
+					
 			g.fillRect(0, 640, 900, 60);
 			g.setColor(new Color(30,49,86));
-			g.drawString("Resume", 430, 680);	
+			g.drawString("Play", 430, 680);	
 			g.setColor(new Color(255,255,255,180));
 			g.drawString("Quit", 430, 740);
 			break;
 
 		case 1:
 			g.setColor(new Color(255,255,255));
-			g.drawString("Resume", 430, 680);
+			g.drawString("Play", 430, 680);
 			g.setColor(new Color(255,255,255,180));
 			g.fillRect(0, 700, 900, 60);
 			g.setColor(new Color(30,49,86));
@@ -53,12 +59,6 @@ public class PauseMenu extends Level {
 			break;
 
 		}
-	}
-
-
-	public void Update(){
-		super.Update();
-		strip.Update();
 	}
 
 	public void keyPress(KeyEvent e){
@@ -81,12 +81,15 @@ public class PauseMenu extends Level {
 
 		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 			if(choice == 0) {
-				GameStateManager.resume();
+				GameStateManager.start();
 			} else if(choice == 1) {
 				GameStateManager.exit();
 			}
 		}
 
 
+
+
 	}
+
 }

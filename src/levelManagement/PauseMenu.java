@@ -1,4 +1,4 @@
-package Levels;
+package levelManagement;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -8,31 +8,30 @@ import java.awt.event.KeyEvent;
 import Game.GamePanel;
 import Graphics.ImageManager;
 
-public class MainMenu extends Level{
+public class PauseMenu extends Level {
 
 	private int choice;
-	private Background strip;
+	private int a = 255, da = -5; 
 
-	public MainMenu(ImageManager im){
+	public PauseMenu() {
+		super(0);
 		choice = 0;
-		strip = new Background(ImageManager.MainMenuStrip);
-		strip.setdX(0.6);
-		strip.setdY(0);
-		bg = new Background(ImageManager.MainMenu);
-		bg.setdX(-0.5);
-		bg.setdY(0);
-	}
 
-	public void Update(){
-		super.Update();
-		strip.Update();
 	}
 
 	public void draw(Graphics2D g){
+
+		g.setColor(new Color(255,255,255,100));
+		g.fillRect(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT);
 		
-		super.draw(g);
-		strip.Render(g);
-		g.drawImage(ImageManager.Title, 0,0,null);
+		Font titleFont = new Font("OCR A Extended", Font.PLAIN, 150);
+		
+		g.setFont(titleFont);
+		
+		g.setColor(new Color(255,255,255,180));
+		g.fillRect(0, 150, GamePanel.WIDTH, 200);
+		g.setColor(new Color(30,49,86, a));
+		g.drawString("PAUSED", (GamePanel.WIDTH/2 - 250), 300);
 		
 		Font stringFont = new Font( "Segoe UI Light", Font.PLAIN, 40 );
 
@@ -41,24 +40,35 @@ public class MainMenu extends Level{
 		switch(choice) {
 
 		case 0:
-					
+			g.setColor(new Color(255,255,255,180));
 			g.fillRect(0, 640, 900, 60);
 			g.setColor(new Color(30,49,86));
-			g.drawString("Play", 430, 680);	
+			g.drawString("Resume", (GamePanel.WIDTH/2 - 75), 680);	
 			g.setColor(new Color(255,255,255,180));
-			g.drawString("Quit", 430, 740);
+			g.drawString("Quit", (GamePanel.WIDTH/2 - 45), 740);
 			break;
 
 		case 1:
-			g.setColor(new Color(255,255,255));
-			g.drawString("Play", 430, 680);
+			g.setColor(new Color(255,255,255, 180));
+			g.drawString("Resume", (GamePanel.WIDTH/2 - 75), 680);
 			g.setColor(new Color(255,255,255,180));
 			g.fillRect(0, 700, 900, 60);
 			g.setColor(new Color(30,49,86));
-			g.drawString("Quit", 430, 740);
+			g.drawString("Quit", (GamePanel.WIDTH/2 - 45), 740);
 			break;
 
 		}
+	}
+
+
+	public void Update(){
+		super.Update();
+		if(a < 50){
+			da = 5;
+		} else if(a > 250){
+			da= -5;
+		}
+		a += da;
 	}
 
 	public void keyPress(KeyEvent e){
@@ -81,15 +91,12 @@ public class MainMenu extends Level{
 
 		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 			if(choice == 0) {
-				GameStateManager.start();
+				GameStateManager.resume();
 			} else if(choice == 1) {
 				GameStateManager.exit();
 			}
 		}
 
 
-
-
 	}
-
 }

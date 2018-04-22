@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import Graphics.ImageManager;
+import levelManagement.GameStateManager;
 
 public class Enemy extends MapObject {
 
@@ -14,29 +15,43 @@ public class Enemy extends MapObject {
 		super(x,y);
 		
 		this.type = t;
-		sprite = ImageManager.alienSprites[t];
+		if(t <= 3){
+			sprite = ImageManager.alienSprites[t];
+		}
+		
+		r=0;
+		w = 100;
+		h = 100;
+		cw = 80;
+		ch = 80;
+		
 		switch(t) {
 			
 		case 0:
-			r=0;
-			w = 30;
-			h = 30;
-			cw = 0;
-			ch = 0;
 			health = 1;
 			speed = 1;
 			lt = true;
 			break;
 		
 		case 1:
-			r=0;
-			w = 30;
-			h = 30;
-			cw = 0;
-			ch = 0;
 			health = 2;
 			speed = 3;
 			lt = false;
+			break;
+			
+		case 2:
+			health = 1;
+			speed = 4;
+			lt = false;
+			break;
+			
+		case 3:
+			health = 5;
+			speed = 1;
+			lt = false;
+			break;
+			
+		case 4:
 			break;
 		
 		}
@@ -44,6 +59,7 @@ public class Enemy extends MapObject {
 	}
 	
 	public void update() {
+		
 		
 		if(health <= 0){
 			isDead = true;

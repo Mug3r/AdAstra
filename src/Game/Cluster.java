@@ -5,30 +5,30 @@ import java.util.ArrayList;
 
 import Graphics.ImageManager;
 import Projectiles.Bullets;
+import levelManagement.GameStateManager;
 
 public class Cluster extends MapObject {
 
 	private Enemy[][] e;
 	private int rows,columns;
 	private int rightmostX;
+	public boolean allDead = false;
 
-	public Cluster(int sx, int sy, ImageManager im) {
+	public Cluster(int sx, int sy, int rows, int cols, int type) {
 		super(sx, sy);
-
-		createStdCluster();
-
+		createCluster(rows, cols, type);
 	}
 
-	private void createStdCluster(){
+	private void createCluster(int r, int c, int type){
 
-		rows = 2;
-		columns = 5;
+		rows = r;
+		columns = c;
 
 		e = new Enemy[rows][columns];
 
 		for(int i = 0; i < rows; i++){
 			for(int j = 0; j < columns; j++){
-				e[i][j] = new Enemy((x + (j * (w + 35))), (y + (i*(h+35))),0);
+				e[i][j] = new Enemy((x + (j * (100))), (y + (i*(100))),type);
 				e[i][j].setLt(lt);
 			}
 		}
@@ -44,8 +44,29 @@ public class Cluster extends MapObject {
 
 	public void update(ArrayList<Bullets> b){
 		
-		x = e[0][0].getX();
-		y = e[0][0].getY();
+		
+		for(int i = rows-1; i > -1; i--){
+			for(int j = columns-1; j > -1; j--){
+				if(!e[i][j].isDead){
+					x = e[i][j].getX();
+					y = e[i][j].getY();
+				}
+			}
+		}
+		
+		for(int i = 0; i < rows; i++){
+			for(int j = 0; j < columns; j++){
+				if(!e[i][j].isDead){
+					rightmostX = Math.max(rightmostX, e[i][j].getX() + e[i][j].getW());
+				}
+			}
+		}
+		
+		for(int i = 0; i < b.size(); i++){
+			if(b.get(i).getDamage() == 0){
+				b.remove(i);
+			}
+		}
 		
 		for(int i = 0; i < b.size(); i++){
 			
@@ -53,8 +74,12 @@ public class Cluster extends MapObject {
 				for(int k = 0; k < columns; k++){
 					
 					if(CollisionDetection.collidesWith(e[j][k], b.get(i))){						
-						e[j][k].hit(b.get(i).getDamage());
-						b.remove(i);						
+						if(!e[j][k].isDead){
+							e[j][k].hit(b.get(i).getDamage());
+							b.get(i).setDamage(0);
+							GameStateManager.incrementPlayer(5);
+							}
+						
 					}
 					
 				}
@@ -66,27 +91,31 @@ public class Cluster extends MapObject {
 			lt = false;
 			for(int i = 0; i < rows; i++){
 				for(int j = 0; j < columns; j++){
-					e[i][j].setY(e[i][j].getY()+e[i][j].getH());
+					e[i][j].setY(e[i][j].getY()+(e[i][j].getH()/2));
 					e[i][j].setLt(false);
 				}
 			}
 		}
 		
-		if(((e[0][columns-1].getX() + e[0][columns-1].getW())) > GamePanel.WIDTH ){
+		if(rightmostX > GamePanel.WIDTH ){
 			lt = true;
 			for(int i = 0; i < rows; i++){
 				for(int j = 0; j < columns; j++){
-					e[i][j].setY(e[i][j].getY()+e[i][j].getH());
+					e[i][j].setY(e[i][j].getY()+(e[i][j].getH()/2));
 					e[i][j].setLt(lt);
 				}
 			}
+			rightmostX = x + e[0][0].getW();
 		}
 		
-		
+		allDead = true;
 
 		for(int i = 0; i < rows; i++){
 			for(int j = 0; j < columns; j++){
 				e[i][j].update();
+				if(!e[i][j].isDead){
+					allDead = false;
+				}
 			}
 		}
 

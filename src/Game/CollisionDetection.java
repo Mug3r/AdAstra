@@ -62,8 +62,8 @@ public class CollisionDetection {
 				
 				double ax = o1.getX();
 				double ay = o1.getY();
-				double aw = o1.getW();
-				double ah = o1.getH();
+				double aw = o1.getCw();
+				double ah = o1.getCh();
 				
 				double bx = o2.getX();
 				double by = o2.getY();
@@ -84,8 +84,8 @@ public class CollisionDetection {
 				
 				double ax = o2.getX();
 				double ay = o2.getY();
-				double aw = o2.getW();
-				double ah = o2.getH();
+				double aw = o2.getCw();
+				double ah = o2.getCh();
 				
 				double bx = o1.getX();
 				double by = o1.getY();
@@ -129,7 +129,7 @@ public class CollisionDetection {
 		
 		public static Rectangle getRectangle(MapObject o){
 			if(o.isRect()){
-				return new Rectangle((int)o.getX(), (int)o.getY(), o.getW(), o.getH());
+				return new Rectangle((int)o.getX(), (int)o.getY(), o.getCw(), o.getCh());
 			} else return new Rectangle(0,0,0,0);
 			
 		}
