@@ -62,6 +62,14 @@ public class Cluster extends MapObject {
 			}
 		}
 		
+		if(y<100){for(int i = 0; i < rows; i++){
+			for(int j = 0; j < columns; j++){
+				if(!e[i][j].isDead){
+					e[i][j].setY(e[i][j].getY() + 2);
+				}
+			}
+		}}
+		
 		for(int i = 0; i < b.size(); i++){
 			if(b.get(i).getDamage() == 0){
 				b.remove(i);

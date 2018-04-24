@@ -1,6 +1,7 @@
 package Projectiles;
 
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
 import Game.GamePanel;
 import Game.MapObject;
@@ -12,9 +13,9 @@ public class Bullets extends MapObject {
 	private int damage = 1;
 	
 	
-	public Bullets(Player p) {
+	public Bullets(Player p, int x, int y) {
 		
-		super(p.getX() + (p.getW()/2 - 15), p.getY());
+		super(x,y);
 		sprite = ImageManager.laser[p.getLevel()];
 		angle = p.getAngle();
 		dx = Math.cos(Math.toRadians(angle)- Math.PI/2)*8;
@@ -22,7 +23,7 @@ public class Bullets extends MapObject {
 		w = sprite.getWidth();
 		h = sprite.getHeight();
 		cw = w - 5;
-		ch = h - 31;
+		ch = h - 20;
 
 	}
 	
@@ -38,12 +39,15 @@ public class Bullets extends MapObject {
 		}
 	}
 	
+	public void hit(){damage--;}
+	
 	public void setDamage(int d){
 		damage = d;
 	}
 	public int getDamage() {
 		return damage;
 	}
+	public BufferedImage getSprite(){return sprite;}
 
 
 }

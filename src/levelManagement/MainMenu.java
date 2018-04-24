@@ -14,13 +14,14 @@ public class MainMenu extends Level{
 	private Background strip;
 
 	public MainMenu(){
+		super(0);
 		choice = 0;
 		strip = new Background(ImageManager.MainMenuStrip);
 		strip.setdX(0.6);
 		strip.setdY(0);
-		bg = new Background(ImageManager.stars);
-		bg.setdX(-0.5);
-		bg.setdY(0);
+		bgdx = -2;
+		bgdy = 0;
+		running = true;
 	}
 
 	public void Update(){
@@ -81,7 +82,7 @@ public class MainMenu extends Level{
 
 		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 			if(choice == 0) {
-				GameStateManager.start();
+				GameStateManager.start(2000);
 			} else if(choice == 1) {
 				GameStateManager.exit();
 			}

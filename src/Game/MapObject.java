@@ -92,12 +92,6 @@ public abstract class MapObject {
 		
 	}
 	
-	public void levelUp(int level){
-		
-		this.level += level;
-		
-	}
-	
 
 public void rotate(int direction, double deg, Graphics2D g) {		
 		//create new context

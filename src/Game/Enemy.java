@@ -42,7 +42,7 @@ public class Enemy extends MapObject {
 		case 2:
 			health = 1;
 			speed = 4;
-			lt = false;
+			lt = true;
 			break;
 			
 		case 3:

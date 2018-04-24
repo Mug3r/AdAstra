@@ -16,7 +16,8 @@ public class PauseMenu extends Level {
 	public PauseMenu() {
 		super(0);
 		choice = 0;
-
+		bgdx = 5;
+		bgdy = 0;
 	}
 
 	public void draw(Graphics2D g){

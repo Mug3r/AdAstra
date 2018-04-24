@@ -37,7 +37,7 @@ public class Background {
 
 	public void Render(Graphics2D g){
 		g.drawImage(bg, (int) x, (int) y, null);
-		if(dx != 0){
+		
 			if(x < 0){
 				g.drawImage(bg, ((int) x + (w - 2)),  (int) y, null);
 			}
@@ -52,8 +52,8 @@ public class Background {
 			if(x < -w){
 				x = 0;
 			}
-		}
-		if(dy != 0){
+		
+		
 			if(y<0){
 				g.drawImage(bg, (int) x ,  ((int) y + (h - 2)), null);
 			} else
@@ -68,7 +68,7 @@ public class Background {
 			if(y < -bg.getHeight()){
 				y = 0;
 			}
-		}
+		
 	}
 
 }

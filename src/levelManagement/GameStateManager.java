@@ -28,7 +28,7 @@ public class GameStateManager {
 	private Level[] menus;
 
 	private static int menu = 0;
-	private static int level = 0;
+	private static int level = -1;
 
 
 
@@ -56,12 +56,13 @@ public class GameStateManager {
 
 		state = MENUSTATE;
 
-
+		menus[menu].startLevel();
+		
 		p = new Player();
 		pI = new PlayerInfo(p);
 	}
 
-	public static void start() {
+	public static void start(int delay) {
 
 		T = new Transition();
 		transitioning = true;
@@ -80,7 +81,12 @@ public class GameStateManager {
 	}
 
 	public static void nextLevel(){
+		transitioning = false;
+		state = GAMESTATE;
+		
 		level++;
+		levels[level].startLevel();
+
 	}
 
 	public static void escape(){
@@ -113,8 +119,7 @@ public class GameStateManager {
 		else{
 			T.Update();
 			if(tDelay < System.currentTimeMillis() - lastTime){
-				transitioning = false;
-				state = GAMESTATE;
+				nextLevel();
 			}
 		}
 	}
@@ -215,6 +220,9 @@ public class GameStateManager {
 				if(e.getKeyCode() == KeyEvent.VK_SPACE){
 					p.setFiring(false);
 				}
+				if(e.getKeyCode() == KeyEvent.VK_DOWN){
+					p.levelUp();
+				}
 
 				levels[level].keyRelease(e);
 			}
@@ -238,12 +246,8 @@ public class GameStateManager {
 
 	}
 	
-	public static void addBullet(){
-		
-		if(state == GAMESTATE) {
-			levels[level].addBullet(p);
-		}
-		
+	public static Level getCurrentLevel(){
+		return levels[level];
 	}
 
 	public void mousePressed(MouseEvent e) {

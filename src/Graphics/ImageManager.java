@@ -15,7 +15,6 @@ public class ImageManager {
 	public static BufferedImage MainMenu, Title;
 	public static BufferedImage MainMenuStrip;
 	public static BufferedImage stars;
-	public static BufferedImage basicLaser;
 	public static BufferedImage power;
 	public static BufferedImage lives;
 	
@@ -23,7 +22,6 @@ public class ImageManager {
 		
 		BufferedImage[] pSprites = load("/PlayerSprites/playerSprites.png", 200, 189);
 		alienSprites = load("/alienSprites.png", 100, 100);
-		MainMenu = ImageLoader.loadImage("/MainMenu.png");
 		MainMenuStrip = ImageLoader.loadImage("/Strip.png");
 		Title = ImageLoader.loadImage("/Title.png");
 		stars = ImageLoader.loadImage("/stars.png");
@@ -32,6 +30,7 @@ public class ImageManager {
 		power = ImageLoader.loadImage("/Projectiles/power.png");
 		
 		playerSprites = new BufferedImage[pSprites.length + 2];
+		
 		for(int i = 0; i < playerSprites.length; i++){
 			if(i != 7 && i != 8){
 				playerSprites[i] = pSprites[i];

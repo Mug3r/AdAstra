@@ -12,10 +12,9 @@ public class Transition extends Level {
 	private int a = 255, d = -5;
 	
 	public Transition(){
-		bg = new Background(ImageManager.stars);
 		bg.setdX(-1);
 		bg.setdY(-0.3);
-		
+		running = true;
 	}
 	
 	public void Update(){

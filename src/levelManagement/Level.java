@@ -17,14 +17,15 @@ public abstract class Level {
 
 	protected int level;
 
-	protected Background bg;
+	protected static Background bg;
 	protected ArrayList<Cluster> Clusters;
 	protected ArrayList<Bullets> b;
 	protected ArrayList<Enemy> sE;
 	protected int mouseX, mouseY;
 	protected Point mouse;
-	private long last, elapsed;
-	private int tt = 400;
+	protected boolean running = false;
+
+	protected double bgdx, bgdy;
 
 	private int type = 0;
 
@@ -33,7 +34,6 @@ public abstract class Level {
 		b = new ArrayList<Bullets>();
 		sE = new ArrayList<Enemy>();
 		mouse = new Point(0,0);
-		last = System.currentTimeMillis();
 	}
 
 	public Level(int type){
@@ -44,15 +44,13 @@ public abstract class Level {
 		switch(type){
 
 		case 0:
-			bg = new Background(ImageManager.MainMenu);
+			bg = new Background(ImageManager.stars);
 			break;
 
 		case 1:
 			Clusters = new ArrayList<Cluster>();
 			b = new ArrayList<Bullets>();
 			sE = new ArrayList<Enemy>();
-			bg = new Background(ImageManager.stars);
-			bg.setdX(0);
 			break;
 
 		case 2:
@@ -62,42 +60,63 @@ public abstract class Level {
 
 	}
 
+	public void startLevel(){
+		running = true;
+		bg.setdX(bgdx);
+		bg.setdY(bgdy);
+	}
+
+	protected void levelComplete(){
+		GameStateManager.nextLevel();
+	}
+
 	public void Update(){
 
-		bg.Update();
-
-		mouseX = (int) mouse.getX();
-		mouseY = (int) mouse.getY();
-
-		if(type == 1){
+		if(running){
+			bg.Update();
 
 
-			for(int i = 0; i < Clusters.size(); i++){
-				Clusters.get(i).update(b);
-				if(Clusters.get(i).allDead){
-					removeCluster(i);
+			mouseX = (int) mouse.getX();
+			mouseY = (int) mouse.getY();
+
+			if(type == 1){
+
+
+				for(int i = 0; i < Clusters.size(); i++){
+					Clusters.get(i).update(b);
+					if(Clusters.get(i).allDead){
+						removeCluster(i);
+					}
 				}
-			}
 
-			for(int i = 0; i < sE.size(); i++){
-				for(int j = 0; j < b.size(); j++){
+				for(int i = 0; i < sE.size(); i++){
+					for(int j = 0; j < b.size(); j++){
 
-					if(CollisionDetection.collidesWith(b.get(j), sE.get(i))){
-						sE.get(i).hit(b.get(j).getDamage());
-						b.remove(j);
+						if(CollisionDetection.collidesWith(b.get(j), sE.get(i))){
+							sE.get(i).hit(b.get(j).getDamage());
+							b.get(j).hit();
+							b.remove(j);
+						}
+
+					}
+				}
+
+				for(int i = 0; i < sE.size(); i++){
+					sE.get(i).update();
+				}
+
+				for(int i = 0; i < b.size(); i++){
+					b.get(i).update();
+					if(b.get(i).getDamage() == 0){
+						b.remove(i);
 					}
 
 				}
-			}
 
-			for(int i = 0; i < sE.size(); i++){
-				sE.get(i).update();
-			}
-
-			for(int i = 0; i < b.size(); i++){
-				b.get(i).update();
-				if(b.get(i).isOffScreen()){
-					b.remove(i);
+				for(int i = 0; i < b.size(); i++){
+					if(b.get(i).isOffScreen()){
+						b.remove(i);
+					}
 				}
 			}
 		}
@@ -109,9 +128,7 @@ public abstract class Level {
 		bg.Render(g);
 
 		if(type == 1){
-			
-			g.setColor(new Color(235,235,235, 100));
-			g.fillRect(15, 15, GamePanel.WIDTH - 30, 75);
+
 
 			for(int i = 0; i < sE.size(); i++){
 				sE.get(i).draw(g);
@@ -180,12 +197,9 @@ public abstract class Level {
 
 	}
 
-	public void addBullet(Player p) {
-		elapsed = System.currentTimeMillis() - last;
-		if(elapsed > tt){
-			b.add(new Bullets(p));
-			last = System.currentTimeMillis();
-		}
+	public void addBullet(Player p, int x, int y) {
+
+		b.add(new Bullets(p, x, y));
 
 	}
 
