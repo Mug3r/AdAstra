@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 
 import Game.GamePanel;
 import Graphics.ImageManager;
+import Audio.SoundLoader;
 
 public class MainMenu extends Level{
 
@@ -14,7 +15,9 @@ public class MainMenu extends Level{
 	private Background strip;
 
 	public MainMenu(){
+		
 		super(0);
+		
 		choice = 0;
 		strip = new Background(ImageManager.MainMenuStrip);
 		strip.setdX(0.6);
@@ -22,6 +25,8 @@ public class MainMenu extends Level{
 		bgdx = -2;
 		bgdy = 0;
 		running = true;
+		
+		
 	}
 
 	public void Update(){
