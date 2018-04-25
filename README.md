@@ -1,7 +1,7 @@
 # AdAstra
 --- CSE214 2018 Project ---
  
-| A 2D Arcade space shooter wirtten using only included Java libraries, for the most part.|
+ 2D Arcade space shooter wirtten using included Java libraries.
  ========================
  Controls:                                                                               
  ========================
@@ -42,7 +42,7 @@
  
  
  
-   ========================================================================================
-  | Credit:                                                                                |
-  | www.kenney.nl for player, laser and enemy graphics.                                    |
-   ========================================================================================
+   
+  Credit:                                                                                
+  ======
+  www.kenney.nl for player, laser and enemy graphics.
