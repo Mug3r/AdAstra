@@ -24,6 +24,8 @@ public abstract class Level {
 	protected int mouseX, mouseY;
 	protected Point mouse;
 	protected boolean running = false;
+	protected int wave, maxWaves, in, diffConst, rowsE, rowsH, colsE, colsH;
+
 
 	protected double bgdx, bgdy;
 
@@ -51,6 +53,7 @@ public abstract class Level {
 			Clusters = new ArrayList<Cluster>();
 			b = new ArrayList<Bullets>();
 			sE = new ArrayList<Enemy>();
+			wave = 0;
 			break;
 
 		case 2:
@@ -118,7 +121,67 @@ public abstract class Level {
 						b.remove(i);
 					}
 				}
+
+
+
+				boolean allClear = true;
+				for(int i = 0; i < Clusters.size(); i++){
+
+
+					if(!Clusters.get(i).allDead){
+						allClear = false;
+					}
+				}
+				if(!allClear){
+					if(in >= Clusters.size()){
+						in = Clusters.size();
+						in--;
+					}
+				} else if(allClear){
+					if(wave == maxWaves ){
+						levelComplete();
+					}
+				}
+				
+				if(in <= 0) {
+					in = 0;
+				}
+
+				if(in <= 5){
+					int t = (int)(Math.random()*diffConst);
+					int r = (int)(1+Math.random()*rowsE);
+					int c = (int)(1+Math.random()*colsE);
+					if(!allClear){
+						if((Clusters.get(in).getY() > 200)){
+
+							if(t == 0 || t == 3){
+								createCluster((GamePanel.WIDTH - (c*ImageManager.alienSprites[0].getWidth() + 10)),(0 - (r*ImageManager.alienSprites[0].getHeight() + 10)), r, c, t);
+								wave++;
+							} else{
+								createCluster(50,(0 - (r*ImageManager.alienSprites[0].getHeight() + 10)), r, c, t); 
+								wave++;
+							}
+							in++;
+						}
+					} else{
+
+						t = (int)(Math.random()*(diffConst--));
+						r = (int)(1+Math.random()*rowsH);
+						c = (int)(1+Math.random()*colsH);
+
+						if(t == 0 || t == 3){
+							createCluster((GamePanel.WIDTH - (c*ImageManager.alienSprites[0].getWidth() + 10)),(0 - (r*ImageManager.alienSprites[0].getHeight() + 10)), r, c, t);
+							wave++;
+						} else{
+							createCluster(50,(0 - (r*ImageManager.alienSprites[0].getHeight() + 10)), r, c, t);
+							wave++;
+						}
+
+
+					}
+				}
 			}
+
 		}
 
 	}
@@ -144,8 +207,15 @@ public abstract class Level {
 		}
 
 	}
+	public int getCurrentWave() {return wave;}
+	public int getWavesLeft() {return maxWaves;}
+
 	protected void removeCluster(int index){
 		Clusters.remove(index);
+		if(index != in){
+			in--;
+		}
+		in--;
 	}
 
 	protected void createCluster(int x, int y, int rows, int col, int type){
@@ -194,6 +264,12 @@ public abstract class Level {
 	}
 
 	public void mousePress(MouseEvent e) {
+
+	}
+
+	public void addBullet(Player p, int x, int y, int d) {
+
+		b.add(new Bullets(p, x, y, d));
 
 	}
 

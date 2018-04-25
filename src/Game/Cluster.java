@@ -83,8 +83,10 @@ public class Cluster extends MapObject {
 					
 					if(CollisionDetection.collidesWith(e[j][k], b.get(i))){						
 						if(!e[j][k].isDead){
-							e[j][k].hit(b.get(i).getDamage());
-							b.get(i).setDamage(0);
+							int d = b.get(i).getDamage();
+							int h = e[j][k].getHealth();
+							e[j][k].hit(d);
+							b.get(i).setDamage(d - h);
 							GameStateManager.incrementPlayer(5);
 							}
 						

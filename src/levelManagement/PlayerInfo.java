@@ -1,6 +1,7 @@
 package levelManagement;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
@@ -15,6 +16,7 @@ public class PlayerInfo {
 	private int level;
 	private int power;
 	private long score;
+	private int wave;
 	private BufferedImage life, powerLevel;
 	private int[] requiredPower = {
 			
@@ -23,6 +25,12 @@ public class PlayerInfo {
 	};
 	private int[] firingRates = {
 		400, 700, 400, 1000, 300, 700, 600, 1000, 200	
+	};
+	public static int[] bulletDamage={
+			1, 2, 1, 2, 1, 2, 2, 3, 1
+	};
+	public static String[] shipName = {
+		"Savato Standard", "Agate Basic", "Agate Light", "Agate Extended", "Cortano Light", "Savato Imperial", "Agate MKII", "Anubis A-Type", "Astrea F-Type"
 	};
 	
 	
@@ -69,6 +77,12 @@ public class PlayerInfo {
 			g.drawImage(life, 20 + (i * life.getWidth()), 20,null);
 		}
 		
+		g.setFont(new Font("Segoe UI Light", Font.PLAIN, 17));
+		g.setColor(new Color(255,255,255, 244));
+		g.drawString("Ship: ",575, 53);
+		g.setFont(new Font("OCR A Extended", Font.PLAIN, 25));
+		g.drawString(shipName[level] + "",620, 55);
+		g.drawString("Wave: " + GameStateManager.getCurrentWave() +"/"+GameStateManager.getMaxWaves(), 620, 80);
 	}
 	
 	public void addScore(double a){

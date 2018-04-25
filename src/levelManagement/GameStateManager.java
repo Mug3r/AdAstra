@@ -249,6 +249,14 @@ public class GameStateManager {
 	public static Level getCurrentLevel(){
 		return levels[level];
 	}
+	
+	public static int getCurrentWave(){
+		return levels[level].getCurrentWave();
+	}
+	
+	public static int getMaxWaves(){
+		return levels[level].getWavesLeft();
+	}
 
 	public void mousePressed(MouseEvent e) {
 		if(!transitioning){
