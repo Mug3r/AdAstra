@@ -15,13 +15,15 @@ public class level_1 extends Level {
 		bgdx = 0;
 		bgdy = -0.3;
 	
-		diffConst = 3;
+		diffConst = 2;
 		rowsE = 2;
-		rowsE = 2;
-		colsH = 4;
-		rowsH = 5;
+		colsE = 2;
+		colsH = 3;
+		rowsH = 3;
 		
 		maxWaves = 5;
+		
+		nextLevel = "- Level 2 -";
 	}
 	
 

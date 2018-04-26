@@ -5,6 +5,7 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.HeadlessException;
@@ -25,7 +26,7 @@ import levelManagement.GameStateManager;
 
 
 
-public class GamePanel extends JPanel implements Runnable, KeyListener, MouseListener, MouseMotionListener{
+public class GamePanel extends JPanel implements Runnable, KeyListener{
 
 
 	public static final int WIDTH = 900;
@@ -35,9 +36,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 
 	private Thread thread;
 	private boolean running;
-	private int FPS = 60;
-	private long targetTime = 1000/FPS;
-
+	private int FPS = 0, TPS = 0;
 
 	private BufferedImage image;
 	private Graphics2D g;
@@ -63,6 +62,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 
 			thread = new Thread(this);
 			addKeyListener(this);
+			
 			thread.start();
 
 		}
@@ -93,31 +93,40 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 
 		init();
 
-		long start;
-		long elapsed;
-		long wait;
-
-
-		while(running){
-
-			start = System.nanoTime();
-
-			update();
-			draw();
-			drawToScreen();
-
-			elapsed = System.nanoTime() - start;
-
-			wait = targetTime - elapsed / 1000000;
-			if(wait < 0){wait = 5;}
-
-			try{
-				Thread.sleep(wait);
-			}
-			catch(Exception e){
-				e.printStackTrace();				
-			}
-		}
+		 int frames = 0;
+         int ticks = 0;        
+         long startTime = System.nanoTime();
+         final double ns = 1000000000.0 / 60.0; 
+         double delta = 0;
+     
+         long timer = System.currentTimeMillis();
+         requestFocus();
+     
+         while(running){
+        
+        long now = System.nanoTime();
+        delta += (now - startTime) / ns;
+        startTime = now;
+        while (delta >= 1){
+            update();
+            ticks++;
+            delta--;
+        }
+        
+        draw();
+        drawToScreen();
+        frames++;
+        
+        if(System.currentTimeMillis() - timer > 1000){
+            timer += 1000;
+            
+             FPS = frames;
+             TPS = ticks;
+            
+            ticks = 0;
+            frames = 0;
+        }
+     }
 
 	}
 
@@ -130,6 +139,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 	private void draw(){
 
 		gsm.draw(g);
+		g.setFont(new Font("OCR A Extended", Font.PLAIN, 20));
+		g.drawString("FPS: " + FPS + " TPS: " +TPS, 15, 960);
 
 	}
 
@@ -144,19 +155,5 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 	public void keyTyped(KeyEvent key){}
 	public void keyPressed(KeyEvent key){gsm.keyPressed(key);}
 	public void keyReleased(KeyEvent key){gsm.keyReleased(key);}
-
-
-	public void mouseDragged(MouseEvent arg0) {}
-	public void mouseMoved(MouseEvent arg0) {gsm.mouseMoved(arg0);}	
-	public void mouseClicked(MouseEvent arg0) {gsm.mouseClicked(arg0);}
-
-	public void mouseEntered(MouseEvent arg0) {
-		this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-		gsm.mouseEntered(arg0);
-	}
-
-	public void mouseExited(MouseEvent arg0) {gsm.mouseExited(arg0);}
-	public void mousePressed(MouseEvent arg0) {gsm.mousePressed(arg0);}
-	public void mouseReleased(MouseEvent arg0) {gsm.mouseReleased(arg0);}
 
 }

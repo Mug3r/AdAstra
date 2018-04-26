@@ -23,7 +23,7 @@ public class Player extends MapObject {
 
 		super((GamePanel.WIDTH - 80)/2, (GamePanel.HEIGHT - (ImageManager.playerSprites[0].getHeight()/2 + 60)));
 		level  = 0;
-		health = 3;
+		health = 2;
 		sprite = ImageManager.playerSprites[level];
 
 		speed = 4;
@@ -37,6 +37,11 @@ public class Player extends MapObject {
 
 	public void update() {
 
+		if(health > 5){
+			health = 5;
+			PlayerInfo.incrementScore(level*GameStateManager.getLevel());
+		}
+		
 		if(lt) {
 			if(x > 0) {
 				x -= speed;
@@ -105,32 +110,32 @@ public class Player extends MapObject {
 		switch(level){
 		case 0:
 
-			if(elapsed > tt){l.addBullet(this, cx, cy, PlayerInfo.bulletDamage[level]);last = System.currentTimeMillis();}
+			if(elapsed > tt){l.addBullet(this, cx, cy, PlayerInfo.bulletDamage[level], 8);last = System.currentTimeMillis();}
 			break;
 		case 1:
-			if(elapsed > tt){l.addBullet(this,  cx, cy, PlayerInfo.bulletDamage[level]);last = System.currentTimeMillis();}					
+			if(elapsed > tt){l.addBullet(this,  cx, cy, PlayerInfo.bulletDamage[level], 5);last = System.currentTimeMillis();}					
 			break;
 		case 2:
-			if(elapsed > tt){l.addBullet(this,  cx, cy, PlayerInfo.bulletDamage[level]);last = System.currentTimeMillis();}					
+			if(elapsed > tt){l.addBullet(this,  cx, cy, PlayerInfo.bulletDamage[level], 8);last = System.currentTimeMillis();}					
 			break;
 		case 3:
-			if(elapsed > tt){l.addBullet(this,  cx, cy, PlayerInfo.bulletDamage[level]);last = System.currentTimeMillis();}			
+			if(elapsed > tt){l.addBullet(this,  cx, cy, PlayerInfo.bulletDamage[level], 10);last = System.currentTimeMillis();}			
 			break;
 		case 4:
-			if(elapsed > tt){l.addBullet(this,  cx, cy, PlayerInfo.bulletDamage[level]);last = System.currentTimeMillis();}				
+			if(elapsed > tt){l.addBullet(this,  cx, cy, PlayerInfo.bulletDamage[level], 7);last = System.currentTimeMillis();}				
 			break;
 		case 5:
-			if(elapsed > tt){l.addBullet(this,  cx, cy, PlayerInfo.bulletDamage[level]);	last = System.currentTimeMillis();}				
+			if(elapsed > tt){l.addBullet(this,  cx, cy, PlayerInfo.bulletDamage[level], 6);	last = System.currentTimeMillis();}				
 			break;
 		case 6:
-			if(elapsed > tt){l.addBullet(this,  cx, cy, PlayerInfo.bulletDamage[level]);last = System.currentTimeMillis();}					
+			if(elapsed > tt){l.addBullet(this,  cx, cy, PlayerInfo.bulletDamage[level], 8);last = System.currentTimeMillis();}					
 			break;
 		case 7:
-			if(elapsed > tt){l.addBullet(this,  cx, cy, PlayerInfo.bulletDamage[level]);last = System.currentTimeMillis();}					
+			if(elapsed > tt){l.addBullet(this,  cx, cy, PlayerInfo.bulletDamage[level], 20);last = System.currentTimeMillis();}					
 			break;
 		case 8:
-			if(elapsed > tt){l.addBullet(this, lx +30, cy);last = System.currentTimeMillis();					
-			l.addBullet(this, cx + 35, cy);last = System.currentTimeMillis();}
+			if(elapsed > tt){l.addBullet(this, lx +30, cy, PlayerInfo.bulletDamage[level], 9);last = System.currentTimeMillis();					
+			l.addBullet(this, cx + 35, cy, PlayerInfo.bulletDamage[level], 9);last = System.currentTimeMillis();}
 			break;
 		}
 

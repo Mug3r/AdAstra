@@ -19,13 +19,13 @@ public class GameStateManager {
 	private static Transition T;
 
 	private static Player p;
-	private PlayerInfo pI;
+	private static PlayerInfo pI;
 
-	private int tDelay = 3000;
+	private static int tDelay = 3000;
 	private static long lastTime;
 
 	private static Level[] levels;
-	private Level[] menus;
+	private static Level[] menus;
 
 	private static int menu = 0;
 	private static int level = -1;
@@ -57,49 +57,11 @@ public class GameStateManager {
 		state = MENUSTATE;
 
 		menus[menu].startLevel();
-		
+
 		p = new Player();
 		pI = new PlayerInfo(p);
 	}
-
-	public static void start(int delay) {
-
-		T = new Transition();
-		transitioning = true;
-		lastTime = System.currentTimeMillis();
-
-	}
-
-	public static void pause(){
-		menu = 1;
-		lastState = state;
-		state = PAUSED;
-	}
-
-	public static void resume(){
-		state = lastState;
-	}
-
-	public static void nextLevel(){
-		transitioning = false;
-		state = GAMESTATE;
-		
-		level++;
-		levels[level].startLevel();
-
-	}
-
-	public static void escape(){
-		if(state == MENUSTATE){
-			exit();
-		} else if(state == PAUSED){
-			resume();
-		} else if(state == GAMESTATE){
-			pause();
-		}
-	}
-
-
+	
 	public void update() {
 
 		if(!transitioning){
@@ -114,7 +76,7 @@ public class GameStateManager {
 				p.update();
 				pI.update();
 			}
-			
+
 		} 
 		else{
 			T.Update();
@@ -123,7 +85,6 @@ public class GameStateManager {
 			}
 		}
 	}
-
 
 	public void draw(Graphics2D g) {		
 
@@ -152,8 +113,126 @@ public class GameStateManager {
 		}
 
 	}
+
 	
-	public static void incrementPlayer(int amount){p.increasePower(amount);}
+	public static void nextLevel(){
+
+		transitioning = false;
+		state = GAMESTATE;
+
+		level++;
+		levels[level].startLevel();
+
+	}
+	
+	public static void Lose() {
+		pI.loseLife();
+		pI.update();
+		menu = 2;
+		state = MENUSTATE;
+
+	}
+	
+	public static void Highscores() {
+
+		
+		
+	}
+
+	
+	
+	public static void resetLevel(){
+		levels[level].reset();
+		state = GAMESTATE;
+		GameOverMenu.once = false;
+		System.out.println("2");
+	}
+	
+	public static void restartGame(){
+		menus = null;
+		levels = null;
+		p = null;
+		pI = null;
+		
+		menus = new Level[3];
+		menus[0] = new MainMenu();
+		menus[1] = new PauseMenu();
+		menus[2]  = new GameOverMenu();
+
+		lastState = MENUSTATE;
+
+		levels = new Level[10];
+		levels[0] = new level_1();
+		levels[1] = new level_2();
+		levels[2] = new level_3();
+		levels[3] = new level_4();
+		levels[4] = new level_5();
+		levels[5] = new level_6();
+		levels[6] = new level_7();
+		levels[7] = new level_8();
+		levels[8] = new level_9();
+		levels[9] = new level_10();
+
+		menu = 0;
+		level = 0;
+		state = MENUSTATE;
+
+		menus[menu].startLevel();
+
+		p = new Player();
+		pI = new PlayerInfo(p);
+		
+	}
+	
+	
+	
+	
+	public static void transition(int s, String m){
+
+		tDelay = s;
+		T = new Transition(m);		
+		transitioning = true;
+		lastTime = System.currentTimeMillis();
+	}
+
+	
+	public static void pause(){
+		menu = 1;
+		lastState = state;
+		state = PAUSED;
+	}
+
+	public static void resume(){
+		state = lastState;
+	}
+
+	
+	public static void escape(){
+		if(state == MENUSTATE){
+			exit();
+		} else if(state == PAUSED){
+			resume();
+		} else if(state == GAMESTATE){
+			pause();
+		}
+	}
+	
+	public static void exit(){
+		Object[] message = {"Are you sure you want to exit?"};
+
+
+		Object[] options = { "Yes", "No" };
+		int n = JOptionPane.showOptionDialog(new JFrame(),
+				message, "",
+				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+				options, options[1]);
+		if(n == JOptionPane.OK_OPTION){ // Affirmative
+			System.exit(2);
+		}
+
+	}
+
+	
 
 	public void keyPressed(KeyEvent e) {
 
@@ -231,106 +310,23 @@ public class GameStateManager {
 
 	}
 
-	public static void exit(){
-		Object[] message = {"Are you sure you want to exit?"};
-
-
-		Object[] options = { "Yes", "No" };
-		int n = JOptionPane.showOptionDialog(new JFrame(),
-				message, "",
-				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-				options, options[1]);
-		if(n == JOptionPane.OK_OPTION){ // Affirmative
-			System.exit(2);
-		}
-
-	}
 	
 	public static Level getCurrentLevel(){
 		return levels[level];
 	}
-	
+
 	public static int getCurrentWave(){
 		return levels[level].getCurrentWave();
 	}
-	
+
 	public static int getMaxWaves(){
 		return levels[level].getWavesLeft();
 	}
-
-	public void mousePressed(MouseEvent e) {
-		if(!transitioning){
-			if(state == MENUSTATE) {
-				menus[menu].mousePress(e);
-			}
-
-			if(state == GAMESTATE) {			
-				levels[level].mousePress(e);
-			}}
+	
+	public static int getLevel(){
+		return level;
 	}
 
-	public void mouseMoved(MouseEvent e) {
-		if(!transitioning){
-			if(state == MENUSTATE) {
-				menus[menu].mouseMove(e);
-			}
-
-			if(state == GAMESTATE) {			
-				levels[level].mouseMove(e);
-			}
-		}
-	}
-
-	public void mouseClicked(MouseEvent e) {
-		if(!transitioning){
-			if(state == MENUSTATE) {
-				menus[menu].mouseClick(e);
-			}
-
-			if(state == GAMESTATE) {			
-				levels[level].mouseClick(e);
-			}
-		}
-
-	}
-
-	public void mouseEntered(MouseEvent e) {
-		if(!transitioning){
-			if(state == MENUSTATE) {
-				menus[menu].mouseEnter(e);
-			}
-
-			if(state == GAMESTATE) {			
-				levels[level].mouseEnter(e);
-			}
-		}
-
-	}
-
-	public void mouseExited(MouseEvent e) {
-		if(!transitioning){
-			if(state == MENUSTATE) {
-				menus[menu].mouseExit(e);
-			}
-
-			if(state == GAMESTATE) {			
-				levels[level].mouseExit(e);
-			}
-		}
-
-	}
-
-	public void mouseReleased(MouseEvent e) {
-		if(!transitioning){
-			if(state == MENUSTATE) {
-				menus[menu].mouseRelease(e);
-			}
-
-			if(state == GAMESTATE) {			
-				levels[level].mouseRelease(e);
-			}
-		}
-
-	}
+	public static void incrementPlayer(int amount){p.increasePower(amount);}
 
 }

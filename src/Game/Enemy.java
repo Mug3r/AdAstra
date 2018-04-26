@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 
 import Graphics.ImageManager;
 import levelManagement.GameStateManager;
+import levelManagement.PlayerInfo;
 
 public class Enemy extends MapObject {
 
@@ -19,6 +20,8 @@ public class Enemy extends MapObject {
 			sprite = ImageManager.alienSprites[t];
 		}
 		
+		dy = 0;
+		
 		r=0;
 		w = 100;
 		h = 100;
@@ -28,26 +31,26 @@ public class Enemy extends MapObject {
 		switch(t) {
 			
 		case 0:
-			health = 1;
-			speed = 1;
+			health = 5;
+			dx = -1;
 			lt = true;
 			break;
 		
 		case 1:
 			health = 2;
-			speed = 3;
+			dx = 5;
 			lt = false;
 			break;
 			
 		case 2:
-			health = 1;
-			speed = 4;
+			health = 7;
+			dx = -4;
 			lt = true;
 			break;
 			
 		case 3:
 			health = 5;
-			speed = 1;
+			dx = 1;
 			lt = false;
 			break;
 			
@@ -58,13 +61,17 @@ public class Enemy extends MapObject {
 		
 	}
 	
-	public void update() {
-		
-		
+	public void hit(int d){
+		super.hit(d);
 		if(health <= 0){
 			isDead = true;
-			return;
+			PlayerInfo.incrementScore((type+1) * 5);
+			GameStateManager.incrementPlayer((type+1)*2);
 		}
+	}
+	
+	public void update() {
+		super.update();
 		
 		if(!isDead){
 			
@@ -72,13 +79,17 @@ public class Enemy extends MapObject {
 				angle += 1;
 			}
 		
-		
-			if(!lt) {x +=speed;} else {x -= speed;} 
+			
+			if(!lt) {dx = Math.abs(dx) ;} else {dx = -(Math.abs(dx));} 
+			x += dx;
 			
 		} else{return;}
 		
 	}
-	
+	@Override
+	public boolean isOffScreen(){		
+		return (y + (h+15) > GamePanel.HEIGHT);
+	}
 		
 	public boolean collidesWith(MapObject o){
 		return CollisionDetection.collidesWith(this, o);

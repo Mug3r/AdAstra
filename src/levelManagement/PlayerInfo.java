@@ -12,11 +12,12 @@ import Graphics.ImageManager;
 public class PlayerInfo {
 
 	private Player p;
-	private int lives;
+	private static int lives;
 	private int level;
+	private int glevel;
 	private int power;
-	private long score;
 	private int wave;
+	private static int score = 0;
 	private BufferedImage life, powerLevel;
 	private int[] requiredPower = {
 			
@@ -30,7 +31,7 @@ public class PlayerInfo {
 			1, 2, 1, 2, 1, 2, 2, 3, 1
 	};
 	public static String[] shipName = {
-		"Savato Standard", "Agate Basic", "Agate Light", "Agate Extended", "Cortano Light", "Savato Imperial", "Agate MKII", "Anubis A-Type", "Astrea F-Type"
+		"Savato S", "Agate B", "Agate L", "Agate SE", "Cortano L", "Savato X", "Agate MKII", "Anubis A", "Astrea F"
 	};
 	
 	
@@ -39,6 +40,7 @@ public class PlayerInfo {
 		score = 0;
 		lives = p.getHealth();
 		level = p.getLevel();
+		glevel = GameStateManager.getLevel();
 		power = p.getPower();
 		p.setBulletDelay(firingRates[level]);
 		life = ImageManager.lives;
@@ -49,6 +51,7 @@ public class PlayerInfo {
 		lives = p.getHealth();
 		level = p.getLevel();
 		power = p.getPower();
+		glevel = GameStateManager.getLevel();
 		if(level <= 7){
 			
 		if(power >= requiredPower[level]){
@@ -66,27 +69,28 @@ public class PlayerInfo {
 	public void draw(Graphics2D g){
 		
 		g.setColor(new Color(255,255,255,100));
-		//g.drawRect(15, 15, GamePanel.WIDTH - 25, 22);
-		g.fillRect(15, 15, life.getWidth()*lives + 10, life.getHeight()+10);
-		g.setColor(new Color(255,246,0,200));
+		g.drawImage(ImageManager.topBar, 0, 15, GamePanel.WIDTH, ImageManager.topBar.getHeight(), null);
+		
 		g.drawRect(15, GamePanel.HEIGHT - 35, GamePanel.WIDTH -30, 17);
 		g.setColor(new Color(255,246,0));
 		g.fillRect(15, GamePanel.HEIGHT - 35,(int) ((double)(GamePanel.WIDTH -30)*((double)power/(double)requiredPower[level])), 17);
 		
 		for(int i = 0; i < lives; i ++){
-			g.drawImage(life, 20 + (i * life.getWidth()), 20,null);
+			g.drawImage(life, (GamePanel.WIDTH/2 - lives*(life.getWidth()/2) + life.getWidth()*i), 55,null);
 		}
-		
-		g.setFont(new Font("Segoe UI Light", Font.PLAIN, 17));
-		g.setColor(new Color(255,255,255, 244));
-		g.drawString("Ship: ",575, 53);
-		g.setFont(new Font("OCR A Extended", Font.PLAIN, 25));
-		g.drawString(shipName[level] + "",620, 55);
-		g.drawString("Wave: " + GameStateManager.getCurrentWave() +"/"+GameStateManager.getMaxWaves(), 620, 80);
-	}
 	
-	public void addScore(double a){
-		score += a;
+		g.setFont(new Font("OCR A Extended", Font.PLAIN, 17));
+		g.setColor(new Color(255,255,255, 244));
+		g.drawString("Damage:" + bulletDamage[level] , 660, 53);
+		g.setFont(new Font("OCR A Extended", Font.PLAIN, 20));
+		g.drawString(shipName[level] + "",720, 35);
+		g.drawString(GameStateManager.getCurrentWave() +"/"+GameStateManager.getMaxWaves(), 320, 45);
+		g.drawString((glevel+1) + "", 600, 45);
+		g.drawString(score + "", 130, 43);
 	}
+	public void loseLife(){p.hit(1);}
+	public static int getLives(){return lives;}
+
+	public static void incrementScore(int d) {score += d;}
 	
 }

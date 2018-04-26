@@ -11,15 +11,15 @@ import Graphics.ImageManager;
 public class Bullets extends MapObject {
 
 	private int damage = 1;
-
+	private int BSpeed = 8;
 
 	public Bullets(Player p, int x, int y) {
 
 		super(x,y);
 		sprite = ImageManager.laser[p.getLevel()];
 		angle = p.getAngle();
-		dx = Math.cos(Math.toRadians(angle)- Math.PI/2)*8;
-		dy = Math.sin(Math.toRadians(angle)- Math.PI/2)*8;
+		dx = Math.cos(Math.toRadians(angle)- Math.PI/2)*BSpeed;
+		dy = Math.sin(Math.toRadians(angle)- Math.PI/2)*BSpeed;
 		w = sprite.getWidth();
 		h = sprite.getHeight();
 		cw = w - 5;
@@ -32,8 +32,8 @@ public class Bullets extends MapObject {
 		super(x,y);
 		sprite = ImageManager.laser[p.getLevel()];
 		angle = p.getAngle();
-		dx = Math.cos(Math.toRadians(angle)- Math.PI/2)*8;
-		dy = Math.sin(Math.toRadians(angle)- Math.PI/2)*8;
+		dx = Math.cos(Math.toRadians(angle)- Math.PI/2)*BSpeed;
+		dy = Math.sin(Math.toRadians(angle)- Math.PI/2)*BSpeed;
 		w = sprite.getWidth();
 		h = sprite.getHeight();
 		cw = w - 5;
@@ -43,7 +43,9 @@ public class Bullets extends MapObject {
 
 	public void Update(){
 		super.update();
-
+		if(damage <= 0){
+			damage = 0;
+		}
 	}
 
 	public void draw(Graphics2D g){
@@ -67,6 +69,7 @@ public class Bullets extends MapObject {
 		return damage;
 	}
 	public BufferedImage getSprite(){return sprite;}
+	public void setBSpeed(int a){speed = a;}
 
 
 }

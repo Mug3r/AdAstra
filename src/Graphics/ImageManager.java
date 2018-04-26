@@ -11,23 +11,30 @@ public class ImageManager {
 	
 	public static BufferedImage[] playerSprites;
 	public static BufferedImage[] alienSprites;
+	public static BufferedImage[] specialAliens;
 	public static BufferedImage[] laser;
+	public static BufferedImage[] menu;
+	public static BufferedImage[] gameOver;
 	public static BufferedImage MainMenu, Title;
 	public static BufferedImage MainMenuStrip;
 	public static BufferedImage stars;
 	public static BufferedImage power;
 	public static BufferedImage lives;
+	public static BufferedImage topBar;
 	
 	public ImageManager(){
 		
-		BufferedImage[] pSprites = load("/PlayerSprites/playerSprites.png", 200, 189);
-		alienSprites = load("/alienSprites.png", 100, 100);
-		MainMenuStrip = ImageLoader.loadImage("/Strip.png");
-		Title = ImageLoader.loadImage("/Title.png");
-		stars = ImageLoader.loadImage("/stars.png");
-		laser = load("/Projectiles/laser1.png", 30, 75);
-		lives = ImageLoader.loadImage("/Projectiles/life.png");
-		power = ImageLoader.loadImage("/Projectiles/power.png");
+		BufferedImage[] pSprites = load("/gfx/Sprites/PlayerSprites/playerSprites.png", 200, 189);
+		alienSprites = load("/gfx/Sprites/AlienSprites/alienSprites.png", 100, 100);
+		menu = load("/gfx/UI/MainMenu.png", 900, 1000);
+		MainMenuStrip = ImageLoader.loadImage("/gfx/UI/Strip.png");
+		Title = ImageLoader.loadImage("/gfx/UI/Title.png");
+		stars = ImageLoader.loadImage("/gfx/UI/stars.png");
+		laser = load("/gfx/Projectiles/laser1.png", 30, 75);
+		lives = ImageLoader.loadImage("/gfx/Projectiles/life.png");
+		power = ImageLoader.loadImage("/gfx/Projectiles/power.png");
+		topBar = ImageLoader.loadImage("/gfx/UI/topBar.png");
+		gameOver = load("/gfx/UI/gameOver.png", 900, 1000);
 		
 		playerSprites = new BufferedImage[pSprites.length + 2];
 		
@@ -36,9 +43,9 @@ public class ImageManager {
 				playerSprites[i] = pSprites[i];
 			}
 			else if(i == 7){
-				playerSprites[i] = ImageLoader.loadImage("/PlayerSprites/lvl8.png");
+				playerSprites[i] = ImageLoader.loadImage("/gfx/Sprites/PlayerSprites/lvl8.png");
 			}else if(i == 8){
-				playerSprites[i] = ImageLoader.loadImage("/PlayerSprites/lvl9.png");
+				playerSprites[i] = ImageLoader.loadImage("/gfx/Sprites/PlayerSprites/lvl9.png");
 			}
 			
 		}

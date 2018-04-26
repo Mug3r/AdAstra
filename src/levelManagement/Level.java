@@ -25,6 +25,7 @@ public abstract class Level {
 	protected Point mouse;
 	protected boolean running = false;
 	protected int wave, maxWaves, in, diffConst, rowsE, rowsH, colsE, colsH;
+	protected String nextLevel;
 
 
 	protected double bgdx, bgdy;
@@ -70,7 +71,8 @@ public abstract class Level {
 	}
 
 	protected void levelComplete(){
-		GameStateManager.nextLevel();
+		running = false;
+		GameStateManager.transition(1000, nextLevel);
 	}
 
 	public void Update(){
@@ -83,7 +85,6 @@ public abstract class Level {
 			mouseY = (int) mouse.getY();
 
 			if(type == 1){
-
 
 				for(int i = 0; i < Clusters.size(); i++){
 					Clusters.get(i).update(b);
@@ -132,60 +133,89 @@ public abstract class Level {
 						allClear = false;
 					}
 				}
-				if(!allClear){
-					if(in >= Clusters.size()){
-						in = Clusters.size();
-						in--;
-					}
-				} else if(allClear){
-					if(wave == maxWaves ){
-						levelComplete();
-					}
-				}
-				
-				if(in <= 0) {
-					in = 0;
-				}
 
-				if(in <= 5){
-					int t = (int)(Math.random()*diffConst);
-					int r = (int)(1+Math.random()*rowsE);
-					int c = (int)(1+Math.random()*colsE);
+				if(wave != maxWaves){
 					if(!allClear){
-						if((Clusters.get(in).getY() > 200)){
+						if(in >= Clusters.size()){
+							in = Clusters.size();
+							in--;
+						}
+					} else if(allClear){
+						if(wave == maxWaves ){
+							levelComplete();
+						}
+					}
+
+
+					if(in <= 0) {
+						in = 0;
+					}
+
+					if(in <= 5){
+						int t = (int)(Math.random()*diffConst);
+						int r = (int)(1+Math.random()*rowsE);
+						int c = (int)(1+Math.random()*colsE);
+
+						if(!allClear){
+							if((Clusters.get(in).getY() > 200)){
+
+								if(t == 0 || t == 3){
+									createCluster((GamePanel.WIDTH - (c*ImageManager.alienSprites[0].getWidth() + 10)),(0 - (r*ImageManager.alienSprites[0].getHeight() + 10)), r, c, t);
+									wave++;
+								} else{
+									createCluster(50,(0 - (r*ImageManager.alienSprites[0].getHeight() + 10)), r, c, t); 
+									wave++;
+								}
+								in++;
+							}
+						} else{
+
+							diffConst-=1;
+
+							if(diffConst < 0){
+								diffConst = 0;
+							}
+
+							t = (int)(Math.random()*(diffConst));
+							r = (int)(1+Math.random()*rowsH);
+							c = (int)(1+Math.random()*colsH);
 
 							if(t == 0 || t == 3){
 								createCluster((GamePanel.WIDTH - (c*ImageManager.alienSprites[0].getWidth() + 10)),(0 - (r*ImageManager.alienSprites[0].getHeight() + 10)), r, c, t);
 								wave++;
 							} else{
-								createCluster(50,(0 - (r*ImageManager.alienSprites[0].getHeight() + 10)), r, c, t); 
+								createCluster(50,(0 - (r*ImageManager.alienSprites[0].getHeight() + 10)), r, c, t);
 								wave++;
 							}
-							in++;
+
+
 						}
-					} else{
-
-						t = (int)(Math.random()*(diffConst--));
-						r = (int)(1+Math.random()*rowsH);
-						c = (int)(1+Math.random()*colsH);
-
-						if(t == 0 || t == 3){
-							createCluster((GamePanel.WIDTH - (c*ImageManager.alienSprites[0].getWidth() + 10)),(0 - (r*ImageManager.alienSprites[0].getHeight() + 10)), r, c, t);
-							wave++;
-						} else{
-							createCluster(50,(0 - (r*ImageManager.alienSprites[0].getHeight() + 10)), r, c, t);
-							wave++;
-						}
-
-
 					}
+				} else if(allClear){
+					levelComplete();
 				}
-			}
 
+			}
 		}
 
 	}
 
+	public void reset(){
+		for(int i = 0; i < Clusters.size(); i++){
+			Clusters.get(i).setY(-1205*i);
+			Clusters.get(i).reset();
+		}
+		for(int i = 0; i < sE.size(); i++){
+			sE.get(i).setY(-100*i - 200);
+			sE.get(i).setX((int)( 100 + (Math.random()*GamePanel.WIDTH - 100)));
+		}
+		for(int i = 0; i < b.size(); i++){
+			b.remove(i);
+		}
+		System.out.println("1");
+		running = true;
+	}
+	
 	public void draw(Graphics2D g){
 
 		bg.Render(g);
@@ -243,34 +273,10 @@ public abstract class Level {
 
 	}
 
-	public void mouseRelease(MouseEvent e) {
-
-	}
-
-	public void mouseExit(MouseEvent e) {
-
-	}
-
-	public void mouseEnter(MouseEvent e) {
-
-	}
-
-	public void mouseClick(MouseEvent e) {
-
-	}
-
-	public void mouseMove(MouseEvent e) {
-		mouse = e.getPoint();
-	}
-
-	public void mousePress(MouseEvent e) {
-
-	}
-
-	public void addBullet(Player p, int x, int y, int d) {
+	public void addBullet(Player p, int x, int y, int d, int s) {
 
 		b.add(new Bullets(p, x, y, d));
-
+		b.get(b.size()-1).setBSpeed(s);
 	}
 
 	public void addBullet(Player p, int x, int y) {
@@ -278,5 +284,8 @@ public abstract class Level {
 		b.add(new Bullets(p, x, y));
 
 	}
-
+	
+	public void lose(){
+		running = false;
+	}
 }
