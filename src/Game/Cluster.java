@@ -116,7 +116,7 @@ public class Cluster extends MapObject {
 			lt = false;
 			for(int i = 0; i < rows; i++){
 				for(int j = 0; j < columns; j++){
-					e[i][j].setY(e[i][j].getY()+(e[i][j].getH()/2));
+					e[i][j].setY(e[i][j].getY()+(e[i][j].getH()/4));
 					e[i][j].setLt(lt);
 				}
 			}
@@ -126,7 +126,7 @@ public class Cluster extends MapObject {
 			lt = true;
 			for(int i = 0; i < rows; i++){
 				for(int j = 0; j < columns; j++){
-					e[i][j].setY(e[i][j].getY()+(e[i][j].getH()/2));
+					e[i][j].setY(e[i][j].getY()+(e[i][j].getH()/4));
 					e[i][j].setLt(lt);
 				}
 			}

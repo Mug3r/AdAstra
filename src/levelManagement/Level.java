@@ -170,13 +170,9 @@ public abstract class Level {
 							}
 						} else{
 
-							diffConst-=1;
 
-							if(diffConst < 0){
-								diffConst = 0;
-							}
 
-							t = (int)(Math.random()*(diffConst));
+							t = (int)(Math.random()*((diffConst-1)));
 							r = (int)(1+Math.random()*rowsH);
 							c = (int)(1+Math.random()*colsH);
 

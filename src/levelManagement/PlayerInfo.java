@@ -68,25 +68,25 @@ public class PlayerInfo {
 	
 	public void draw(Graphics2D g){
 		
-		g.setColor(new Color(255,255,255,100));
-		g.drawImage(ImageManager.topBar, 0, 15, GamePanel.WIDTH, ImageManager.topBar.getHeight(), null);
+	
+		g.drawImage(ImageManager.topBar, 0, 0, GamePanel.WIDTH, ImageManager.topBar.getHeight(), null);
 		
+		g.setColor(new Color(255,255,255,100));
 		g.drawRect(15, GamePanel.HEIGHT - 35, GamePanel.WIDTH -30, 17);
 		g.setColor(new Color(255,246,0));
 		g.fillRect(15, GamePanel.HEIGHT - 35,(int) ((double)(GamePanel.WIDTH -30)*((double)power/(double)requiredPower[level])), 17);
 		
 		for(int i = 0; i < lives; i ++){
-			g.drawImage(life, (GamePanel.WIDTH/2 - lives*(life.getWidth()/2) + life.getWidth()*i), 55,null);
+			g.drawImage(life, (GamePanel.WIDTH/2 - lives*(life.getWidth()/2) + (life.getWidth()+10)*i), 35,null);
 		}
 	
-		g.setFont(new Font("OCR A Extended", Font.PLAIN, 17));
-		g.setColor(new Color(255,255,255, 244));
-		g.drawString("Damage:" + bulletDamage[level] , 660, 53);
-		g.setFont(new Font("OCR A Extended", Font.PLAIN, 20));
-		g.drawString(shipName[level] + "",720, 35);
-		g.drawString(GameStateManager.getCurrentWave() +"/"+GameStateManager.getMaxWaves(), 320, 45);
-		g.drawString((glevel+1) + "", 600, 45);
-		g.drawString(score + "", 130, 43);
+		g.setFont(new Font("VeriBest Gerber 0", Font.PLAIN, 17));
+		g.setColor(new Color(255,255,255));
+		g.drawString("Damage:" + bulletDamage[level] , 740, 39);
+		g.setFont(new Font("VeriBest Gerber 0", Font.PLAIN, 20));
+		g.drawString(shipName[level] + "",750, 18);
+		g.drawString(GameStateManager.getCurrentWave() +"/"+GameStateManager.getMaxWaves(), 450, 25);
+		g.drawString(score + "", 90, 32);
 	}
 	public void loseLife(){p.hit(1);}
 	public static int getLives(){return lives;}

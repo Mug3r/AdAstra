@@ -11,11 +11,11 @@ public class level_2 extends Level {
 		bgdx = 0;
 		bgdy = -0.4;
 	
-		diffConst = 2;
+		diffConst = 3;
 		rowsE = 2;
 		colsE = 2;
-		colsH = 4;
-		rowsH = 3;
+		colsH = 3;
+		rowsH = 2;
 		
 		wave = 0;
 		

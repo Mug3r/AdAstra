@@ -12,7 +12,7 @@ public class level_4 extends Level {
 		bgdy = -0.5;
 	
 		diffConst = 2;
-		rowsE = 3;
+		rowsE = 2;
 		colsE = 4;
 		colsH = 5;
 		rowsH = 2;
@@ -20,6 +20,8 @@ public class level_4 extends Level {
 		wave = 0;
 		
 		maxWaves = 10;
+		
+		nextLevel = "- Level 5 -";
 	}
 	
 }

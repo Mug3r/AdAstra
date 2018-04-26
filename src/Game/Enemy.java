@@ -31,26 +31,26 @@ public class Enemy extends MapObject {
 		switch(t) {
 			
 		case 0:
-			health = 5;
+			health = 3;
 			dx = -1;
 			lt = true;
 			break;
 		
 		case 1:
 			health = 2;
-			dx = 5;
+			dx = 4;
 			lt = false;
 			break;
 			
 		case 2:
-			health = 7;
+			health = 3;
 			dx = -4;
 			lt = true;
 			break;
 			
 		case 3:
 			health = 5;
-			dx = 1;
+			dx = 3;
 			lt = false;
 			break;
 			
