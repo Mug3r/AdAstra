@@ -21,6 +21,8 @@ public class ImageManager {
 	public static BufferedImage power;
 	public static BufferedImage lives;
 	public static BufferedImage topBar;
+	public static BufferedImage highScores;
+	public static BufferedImage victory;
 	
 	public ImageManager(){
 		
@@ -35,6 +37,8 @@ public class ImageManager {
 		power = ImageLoader.loadImage("/gfx/Projectiles/power.png");
 		topBar = ImageLoader.loadImage("/gfx/UI/topBar.png");
 		gameOver = load("/gfx/UI/gameOver.png", 900, 1000);
+		highScores = ImageLoader.loadImage("/gfx/UI/highScores.png");
+		victory = ImageLoader.loadImage("/gfx/UI/victory.png");
 		
 		playerSprites = new BufferedImage[pSprites.length + 2];
 		

@@ -20,6 +20,7 @@ public class GameStateManager {
 
 	private static Player p;
 	private static PlayerInfo pI;
+	private static String username;
 
 	private static int tDelay = 3000;
 	private static long lastTime;
@@ -34,10 +35,12 @@ public class GameStateManager {
 
 	public GameStateManager() {
 
-		menus = new Level[3];
+		menus = new Level[5];
 		menus[0] = new MainMenu();
 		menus[1] = new PauseMenu();
 		menus[2]  = new GameOverMenu();
+		menus[3] = new VictoryMenu();
+
 
 		lastState = MENUSTATE;
 
@@ -58,10 +61,12 @@ public class GameStateManager {
 
 		menus[menu].startLevel();
 
-		p = new Player();
+		username = JOptionPane.showInputDialog("Enter a username" , null);
+
+		p = new Player(username);
 		pI = new PlayerInfo(p);
 	}
-	
+
 	public void update() {
 
 		if(!transitioning){
@@ -114,7 +119,7 @@ public class GameStateManager {
 
 	}
 
-	
+
 	public static void nextLevel(){
 
 		transitioning = false;
@@ -124,7 +129,12 @@ public class GameStateManager {
 		levels[level].startLevel();
 
 	}
-	
+
+	public static void win() {
+		menu = 3;
+		state = MENUSTATE;
+	}
+
 	public static void Lose() {
 		pI.loseLife();
 		pI.update();
@@ -132,32 +142,37 @@ public class GameStateManager {
 		state = MENUSTATE;
 
 	}
-	
+
 	public static void Highscores() {
 
-		
-		
+		menus[4] = new HighscoresMenu(menu);
+		menu = 4;
+		lastState = state;
+		state = MENUSTATE;
+
 	}
 
-	
-	
+
+
 	public static void resetLevel(){
 		levels[level].reset();
 		state = GAMESTATE;
 		GameOverMenu.once = false;
 		System.out.println("2");
 	}
-	
+
 	public static void restartGame(){
 		menus = null;
 		levels = null;
 		p = null;
 		pI = null;
-		
-		menus = new Level[3];
+
+		menus = new Level[5];
 		menus[0] = new MainMenu();
 		menus[1] = new PauseMenu();
 		menus[2]  = new GameOverMenu();
+		menus[3] = new VictoryMenu();
+
 
 		lastState = MENUSTATE;
 
@@ -179,14 +194,16 @@ public class GameStateManager {
 
 		menus[menu].startLevel();
 
-		p = new Player();
+		username = JOptionPane.showInputDialog("Enter a username" , null);
+
+		p = new Player(username);
 		pI = new PlayerInfo(p);
-		
+
 	}
-	
-	
-	
-	
+
+
+
+
 	public static void transition(int s, String m){
 
 		tDelay = s;
@@ -195,7 +212,7 @@ public class GameStateManager {
 		lastTime = System.currentTimeMillis();
 	}
 
-	
+
 	public static void pause(){
 		menu = 1;
 		lastState = state;
@@ -206,7 +223,7 @@ public class GameStateManager {
 		state = lastState;
 	}
 
-	
+
 	public static void escape(){
 		if(state == MENUSTATE){
 			exit();
@@ -216,23 +233,33 @@ public class GameStateManager {
 			pause();
 		}
 	}
-	
+
 	public static void exit(){
-		Object[] message = {"Are you sure you want to exit?"};
+
+		if(menu == 0) {
+			Object[] message = {"Are you sure you want to exit?"};
 
 
-		Object[] options = { "Yes", "No" };
-		int n = JOptionPane.showOptionDialog(new JFrame(),
-				message, "",
-				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-				options, options[1]);
-		if(n == JOptionPane.OK_OPTION){ // Affirmative
-			System.exit(2);
+			Object[] options = { "Yes", "No" };
+			int n = JOptionPane.showOptionDialog(new JFrame(),
+					message, "",
+					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+					options, options[1]);
+			if(n == JOptionPane.OK_OPTION){ // Affirmative
+				System.exit(2);
+			}
+		} else if(menu != 2 || menu != 3) {
+			int t = state;
+			menu = menus[menu].lastMenu;
+			state = lastState;
+			lastState = t;
+		} else {
+			restartGame();
 		}
 
 	}
 
-	
+
 
 	public void keyPressed(KeyEvent e) {
 
@@ -302,15 +329,13 @@ public class GameStateManager {
 				if(e.getKeyCode() == KeyEvent.VK_DOWN){
 					p.levelUp();
 				}
-
-				levels[level].keyRelease(e);
 			}
 
 		}
 
 	}
 
-	
+
 	public static Level getCurrentLevel(){
 		return levels[level];
 	}
@@ -322,7 +347,7 @@ public class GameStateManager {
 	public static int getMaxWaves(){
 		return levels[level].getWavesLeft();
 	}
-	
+
 	public static int getLevel(){
 		return level;
 	}

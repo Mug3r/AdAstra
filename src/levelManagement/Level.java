@@ -18,6 +18,8 @@ public abstract class Level {
 	protected int level;
 
 	protected static Background bg;
+
+	protected int lastMenu;
 	protected ArrayList<Cluster> Clusters;
 	protected ArrayList<Bullets> b;
 	protected ArrayList<Enemy> sE;
@@ -72,7 +74,7 @@ public abstract class Level {
 
 	protected void levelComplete(){
 		running = false;
-		GameStateManager.transition(1000, nextLevel);
+		GameStateManager.transition(1700, nextLevel);
 	}
 
 	public void Update(){
@@ -265,20 +267,10 @@ public abstract class Level {
 		}
 	}
 
-	public void keyRelease(KeyEvent e){
-
-	}
-
 	public void addBullet(Player p, int x, int y, int d, int s) {
 
 		b.add(new Bullets(p, x, y, d));
 		b.get(b.size()-1).setBSpeed(s);
-	}
-
-	public void addBullet(Player p, int x, int y) {
-
-		b.add(new Bullets(p, x, y));
-
 	}
 	
 	public void lose(){

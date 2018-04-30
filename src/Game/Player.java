@@ -17,9 +17,10 @@ public class Player extends MapObject {
 
 	private long last, elapsed;
 	private int tt = 400;
+	private String user;
 
 
-	public Player() {	
+	public Player(String u) {	
 
 		super((GamePanel.WIDTH - 80)/2, (GamePanel.HEIGHT - (ImageManager.playerSprites[0].getHeight()/2 + 60)));
 		level  = 0;
@@ -31,6 +32,8 @@ public class Player extends MapObject {
 		h  = (int)(ImageManager.playerSprites[level].getHeight()/2);
 		cw = ImageManager.playerSprites[level].getWidth() - 10;
 		ch = ImageManager.playerSprites[level].getHeight() - 5;
+		
+		user = u;
 
 	}
 
@@ -158,6 +161,16 @@ public class Player extends MapObject {
 		sprite = ImageManager.playerSprites[level]; 
 		w = sprite.getWidth()/2; h = sprite.getHeight()/2; 
 		y = GamePanel.HEIGHT - (h +100);
+	}
+	
+	public String getName() {
+		
+		return user;
+		
+	}
+	
+	public void setName(String n) {
+		user = n;
 	}
 
 	public int getPower(){return power;}

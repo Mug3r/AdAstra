@@ -1,5 +1,6 @@
 package gameLevels;
 
+import levelManagement.GameStateManager;
 import levelManagement.Level;
 
 public class level_10 extends Level {
@@ -20,6 +21,12 @@ public class level_10 extends Level {
 		maxWaves = 15;
 		
 		nextLevel = "VICTORY";
+	}
+	
+	@Override
+	public void levelComplete(){
+		running = false;
+		GameStateManager.win();
 	}
 	
 }

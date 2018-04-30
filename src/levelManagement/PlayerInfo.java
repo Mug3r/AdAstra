@@ -14,21 +14,19 @@ public class PlayerInfo {
 	private Player p;
 	private static int lives;
 	private int level;
-	private int glevel;
 	private int power;
-	private int wave;
 	private static int score = 0;
-	private BufferedImage life, powerLevel;
+	private BufferedImage life;
 	private int[] requiredPower = {
 			
 			100, 120, 150, 200, 210, 200, 250, 250, 500 
 			
 	};
 	private int[] firingRates = {
-		400, 700, 400, 1000, 300, 700, 600, 1000, 200	
+		400, 700, 400, 1000, 300, 700, 600, 1200, 225	
 	};
 	public static int[] bulletDamage={
-			1, 2, 1, 2, 1, 2, 2, 3, 1
+			1, 2, 1, 3, 1, 3, 2, 5, 1
 	};
 	public static String[] shipName = {
 		"Savato S", "Agate B", "Agate L", "Agate SE", "Cortano L", "Savato X", "Agate MKII", "Anubis A", "Astrea F"
@@ -40,18 +38,15 @@ public class PlayerInfo {
 		score = 0;
 		lives = p.getHealth();
 		level = p.getLevel();
-		glevel = GameStateManager.getLevel();
 		power = p.getPower();
 		p.setBulletDelay(firingRates[level]);
 		life = ImageManager.lives;
-		powerLevel = ImageManager.power;
 	}
 	
 	public void update(){
 		lives = p.getHealth();
 		level = p.getLevel();
 		power = p.getPower();
-		glevel = GameStateManager.getLevel();
 		if(level <= 7){
 			
 		if(power >= requiredPower[level]){
