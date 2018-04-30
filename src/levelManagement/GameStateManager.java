@@ -5,36 +5,47 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+
+import Game.GamePanel;
 import Game.Player;
 import Graphics.ImageManager;
+import Main.Boot;
 import gameLevels.*;
 
 public class GameStateManager {
 
+	//Control Values, used to set our state
 	private static final int MENUSTATE = 0, GAMESTATE = 1, PAUSED = 2;
-
 	private static int state,lastState;
-	private ImageManager im;
+	
+	//Used to control when we transition between levels
 	private static boolean transitioning = false;
 	private static Transition T;
 
+	//Player and the info object that manages the player's interactions
 	private static Player p;
 	private static PlayerInfo pI;
 	private static String username;
 
+	//Transition Controls to set how long the transition between levels msut last
 	private static int tDelay = 3000;
 	private static long lastTime;
 
+	//Array used to store the levels in the game 10 in total as of now and the menus
 	private static Level[] levels;
 	private static Level[] menus;
 
+	//Used to control the current level/menu
 	private static int menu = 0;
 	private static int level = -1;
+	
+	private static GamePanel gp;
 
+	//Set up all the variables
+	public GameStateManager(GamePanel gp) {
 
-
-	public GameStateManager() {
-
+		this.gp = gp;
+		
 		menus = new Level[5];
 		menus[0] = new MainMenu();
 		menus[1] = new PauseMenu();
@@ -76,9 +87,9 @@ public class GameStateManager {
 				pI.update();
 			}
 
-			if(state == GAMESTATE) {			
-				levels[level].Update();
+			if(state == GAMESTATE) {
 				p.update();
+				levels[level].Update(p);				
 				pI.update();
 			}
 
@@ -162,11 +173,7 @@ public class GameStateManager {
 	}
 
 	public static void restartGame(){
-		menus = null;
-		levels = null;
-		p = null;
-		pI = null;
-
+		
 		menus = new Level[5];
 		menus[0] = new MainMenu();
 		menus[1] = new PauseMenu();
@@ -187,18 +194,13 @@ public class GameStateManager {
 		levels[7] = new level_8();
 		levels[8] = new level_9();
 		levels[9] = new level_10();
-
+		
+		level = -1;
 		menu = 0;
-		level = 0;
-		state = MENUSTATE;
-
-		menus[menu].startLevel();
-
-		username = JOptionPane.showInputDialog("Enter a username" , null);
-
-		p = new Player(username);
-		pI = new PlayerInfo(p);
-
+		
+		gp.setThread(null);
+		gp.restart();
+		
 	}
 
 

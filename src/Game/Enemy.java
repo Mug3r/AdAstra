@@ -3,6 +3,7 @@ package Game;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import CollsionDetection.CollisionDetection;
 import Graphics.ImageManager;
 import levelManagement.GameStateManager;
 import levelManagement.PlayerInfo;
@@ -31,25 +32,25 @@ public class Enemy extends MapObject {
 		switch(t) {
 			
 		case 0:
-			health = 3;
+			health = 1;
 			dx = -1;
 			lt = true;
 			break;
 		
 		case 1:
-			health = 2;
+			health = 1;
 			dx = 4;
 			lt = false;
 			break;
 			
 		case 2:
-			health = 3;
+			health = 1;
 			dx = -4;
 			lt = true;
 			break;
 			
 		case 3:
-			health = 5;
+			health = 1;
 			dx = 3;
 			lt = false;
 			break;
@@ -91,15 +92,13 @@ public class Enemy extends MapObject {
 		return (y + (h+15) > GamePanel.HEIGHT);
 	}
 		
-	public boolean collidesWith(MapObject o){
-		return CollisionDetection.collidesWith(this, o);
-	}
 	
 	public boolean getLt() {return lt;}
 	public void setLt(boolean b) {lt = b;}
 	
 
 	public int getR() {return r;}
+
 
 	
 	

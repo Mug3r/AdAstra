@@ -22,7 +22,6 @@ public abstract class Level {
 	protected int lastMenu;
 	protected ArrayList<Cluster> Clusters;
 	protected ArrayList<Bullets> b;
-	protected ArrayList<Enemy> sE;
 	protected int mouseX, mouseY;
 	protected Point mouse;
 	protected boolean running = false;
@@ -37,7 +36,6 @@ public abstract class Level {
 	public Level(){
 		Clusters = new ArrayList<Cluster>();
 		b = new ArrayList<Bullets>();
-		sE = new ArrayList<Enemy>();
 		mouse = new Point(0,0);
 	}
 
@@ -45,6 +43,7 @@ public abstract class Level {
 
 		this.type = type;
 		mouse = new Point(0,0);
+		
 
 		switch(type){
 
@@ -55,7 +54,6 @@ public abstract class Level {
 		case 1:
 			Clusters = new ArrayList<Cluster>();
 			b = new ArrayList<Bullets>();
-			sE = new ArrayList<Enemy>();
 			wave = 0;
 			break;
 
@@ -76,39 +74,23 @@ public abstract class Level {
 		running = false;
 		GameStateManager.transition(1700, nextLevel);
 	}
+	
+	public void Update() {
+		if(running){
+			bg.Update();
+		}
+	}
 
-	public void Update(){
+	public void Update(Player p){
 
 		if(running){
 			bg.Update();
 
-
-			mouseX = (int) mouse.getX();
-			mouseY = (int) mouse.getY();
-
-			if(type == 1){
-
 				for(int i = 0; i < Clusters.size(); i++){
-					Clusters.get(i).update(b);
+					Clusters.get(i).update(b,p);
 					if(Clusters.get(i).allDead){
 						removeCluster(i);
 					}
-				}
-
-				for(int i = 0; i < sE.size(); i++){
-					for(int j = 0; j < b.size(); j++){
-
-						if(CollisionDetection.collidesWith(b.get(j), sE.get(i))){
-							sE.get(i).hit(b.get(j).getDamage());
-							b.get(j).hit();
-							b.remove(j);
-						}
-
-					}
-				}
-
-				for(int i = 0; i < sE.size(); i++){
-					sE.get(i).update();
 				}
 
 				for(int i = 0; i < b.size(); i++){
@@ -193,7 +175,7 @@ public abstract class Level {
 					levelComplete();
 				}
 
-			}
+			
 		}
 
 	}
@@ -202,10 +184,6 @@ public abstract class Level {
 		for(int i = 0; i < Clusters.size(); i++){
 			Clusters.get(i).setY(-1205*i);
 			Clusters.get(i).reset();
-		}
-		for(int i = 0; i < sE.size(); i++){
-			sE.get(i).setY(-100*i - 200);
-			sE.get(i).setX((int)( 100 + (Math.random()*GamePanel.WIDTH - 100)));
 		}
 		for(int i = 0; i < b.size(); i++){
 			b.remove(i);
@@ -219,11 +197,6 @@ public abstract class Level {
 		bg.Render(g);
 
 		if(type == 1){
-
-
-			for(int i = 0; i < sE.size(); i++){
-				sE.get(i).draw(g);
-			}
 
 			for(int i = 0; i < Clusters.size(); i++){
 				Clusters.get(i).draw(g);
@@ -249,12 +222,6 @@ public abstract class Level {
 	protected void createCluster(int x, int y, int rows, int col, int type){
 
 		Clusters.add(new Cluster(x, y, rows, col, type));
-
-	}
-
-	protected void createSpecialEnemy(int x, int y, int type){
-
-		sE.add(new Enemy(x,y,type));
 
 	}
 

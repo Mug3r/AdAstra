@@ -19,7 +19,7 @@ public class level_9 extends Level {
 		
 		maxWaves = 15;
 		
-		nextLevel = "- FINAL LEVEL -";
+		nextLevel = "~ Level 10 ~";
 	}
 	
 }
