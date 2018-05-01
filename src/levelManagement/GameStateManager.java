@@ -6,6 +6,8 @@ import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+
+import Audio.SoundLoader;
 import Game.GamePanel;
 import Game.Player;
 import Graphics.ImageManager;
@@ -51,8 +53,6 @@ public class GameStateManager {
 		menus[1] = new PauseMenu();
 		menus[2]  = new GameOverMenu();
 		menus[3] = new VictoryMenu();
-
-
 		lastState = MENUSTATE;
 
 		levels = new Level[10];
@@ -69,10 +69,23 @@ public class GameStateManager {
 
 
 		state = MENUSTATE;
-
+		SoundLoader.loadSound("/MenuSong.mp3");
 		menus[menu].startLevel();
 
+
+	public static void pause(){
+		menu = 1;
+		lastState = state;
+		state = PAUSED;
+		SoundLoader.loadSound("/MenuSong.mp3");
+	}
+
+	public static void resume(){
+		state = lastState;
+	}
+
 		username = JOptionPane.showInputDialog("Enter a username" , null);
+
 
 		p = new Player(username);
 		pI = new PlayerInfo(p);
