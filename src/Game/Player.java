@@ -44,11 +44,6 @@ public class Player extends MapObject {
 
 
 	public void update() {
-
-		if(health > 5){
-			health = 5;
-			PlayerInfo.incrementScore(level*GameStateManager.getLevel());
-		}
 		
 		if(lt) {
 			if(x > 0) {

@@ -7,7 +7,6 @@ import java.awt.event.KeyEvent;
 
 import Game.GamePanel;
 import Graphics.ImageManager;
-import Audio.SoundLoader;
 
 public class MainMenu extends Level{
 

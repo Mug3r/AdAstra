@@ -7,7 +7,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 
-import Audio.SoundLoader;
 import Game.GamePanel;
 import Game.Player;
 import Graphics.ImageManager;
@@ -47,7 +46,7 @@ public class GameStateManager {
 	public GameStateManager(GamePanel gp) {
 
 		this.gp = gp;
-		
+		p = new Player(username);
 		menus = new Level[5];
 		menus[0] = new MainMenu();
 		menus[1] = new PauseMenu();
@@ -74,7 +73,7 @@ public class GameStateManager {
 		username = JOptionPane.showInputDialog("Enter a username" , null);
 
 
-		p = new Player(username);
+		
 		pI = new PlayerInfo(p);
 	}
 	//Update the specific current state/level
