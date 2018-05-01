@@ -18,12 +18,16 @@ public abstract class Level {
 	protected int level;
 
 	protected static Background bg;
+
+	protected int lastMenu;
 	protected ArrayList<Cluster> Clusters;
 	protected ArrayList<Bullets> b;
-	protected ArrayList<Enemy> sE;
 	protected int mouseX, mouseY;
 	protected Point mouse;
 	protected boolean running = false;
+	protected int wave, maxWaves, in, diffConst, rowsE, rowsH, colsE, colsH;
+	protected String nextLevel;
+
 
 	protected double bgdx, bgdy;
 
@@ -32,7 +36,6 @@ public abstract class Level {
 	public Level(){
 		Clusters = new ArrayList<Cluster>();
 		b = new ArrayList<Bullets>();
-		sE = new ArrayList<Enemy>();
 		mouse = new Point(0,0);
 	}
 
@@ -40,6 +43,7 @@ public abstract class Level {
 
 		this.type = type;
 		mouse = new Point(0,0);
+		
 
 		switch(type){
 
@@ -50,7 +54,7 @@ public abstract class Level {
 		case 1:
 			Clusters = new ArrayList<Cluster>();
 			b = new ArrayList<Bullets>();
-			sE = new ArrayList<Enemy>();
+			wave = 0;
 			break;
 
 		case 2:
@@ -67,42 +71,26 @@ public abstract class Level {
 	}
 
 	protected void levelComplete(){
-		GameStateManager.nextLevel();
+		running = false;
+		GameStateManager.transition(1700, nextLevel);
+	}
+	
+	public void Update() {
+		if(running){
+			bg.Update();
+		}
 	}
 
-	public void Update(){
+	public void Update(Player p){
 
 		if(running){
 			bg.Update();
 
-
-			mouseX = (int) mouse.getX();
-			mouseY = (int) mouse.getY();
-
-			if(type == 1){
-
-
 				for(int i = 0; i < Clusters.size(); i++){
-					Clusters.get(i).update(b);
+					Clusters.get(i).update(b,p);
 					if(Clusters.get(i).allDead){
 						removeCluster(i);
 					}
-				}
-
-				for(int i = 0; i < sE.size(); i++){
-					for(int j = 0; j < b.size(); j++){
-
-						if(CollisionDetection.collidesWith(b.get(j), sE.get(i))){
-							sE.get(i).hit(b.get(j).getDamage());
-							b.get(j).hit();
-							b.remove(j);
-						}
-
-					}
-				}
-
-				for(int i = 0; i < sE.size(); i++){
-					sE.get(i).update();
 				}
 
 				for(int i = 0; i < b.size(); i++){
@@ -118,21 +106,97 @@ public abstract class Level {
 						b.remove(i);
 					}
 				}
-			}
+
+
+
+				boolean allClear = true;
+				for(int i = 0; i < Clusters.size(); i++){
+
+
+					if(!Clusters.get(i).allDead){
+						allClear = false;
+					}
+				}
+
+				if(wave != maxWaves){
+					if(!allClear){
+						if(in >= Clusters.size()){
+							in = Clusters.size();
+							in--;
+						}
+					} else if(allClear){
+						if(wave == maxWaves ){
+							levelComplete();
+						}
+					}
+
+
+					if(in <= 0) {
+						in = 0;
+					}
+
+					if(in <= 5){
+						int t = (int)(Math.random()*diffConst);
+						int r = (int)(1+Math.random()*rowsE);
+						int c = (int)(1+Math.random()*colsE);
+
+						if(!allClear){
+							if((Clusters.get(in).getY() > 200)){
+
+								if(t == 0 || t == 3){
+									createCluster((GamePanel.WIDTH - (c*ImageManager.alienSprites[0].getWidth() + 10)),(0 - (r*ImageManager.alienSprites[0].getHeight() + 10)), r, c, t);
+									wave++;
+								} else{
+									createCluster(50,(0 - (r*ImageManager.alienSprites[0].getHeight() + 10)), r, c, t); 
+									wave++;
+								}
+								in++;
+							}
+						} else{
+
+
+
+							t = (int)(Math.random()*((diffConst-1)));
+							r = (int)(1+Math.random()*rowsH);
+							c = (int)(1+Math.random()*colsH);
+
+							if(t == 0 || t == 3){
+								createCluster((GamePanel.WIDTH - (c*ImageManager.alienSprites[0].getWidth() + 10)),(0 - (r*ImageManager.alienSprites[0].getHeight() + 10)), r, c, t);
+								wave++;
+							} else{
+								createCluster(50,(0 - (r*ImageManager.alienSprites[0].getHeight() + 10)), r, c, t);
+								wave++;
+							}
+
+
+						}
+					}
+				} else if(allClear){
+					levelComplete();
+				}
+
+			
 		}
 
 	}
 
+	public void reset(){
+		for(int i = 0; i < Clusters.size(); i++){
+			Clusters.get(i).setY(-1205*i);
+			Clusters.get(i).reset();
+		}
+		for(int i = 0; i < b.size(); i++){
+			b.remove(i);
+		}
+		System.out.println("1");
+		running = true;
+	}
+	
 	public void draw(Graphics2D g){
 
 		bg.Render(g);
 
 		if(type == 1){
-
-
-			for(int i = 0; i < sE.size(); i++){
-				sE.get(i).draw(g);
-			}
 
 			for(int i = 0; i < Clusters.size(); i++){
 				Clusters.get(i).draw(g);
@@ -144,19 +208,20 @@ public abstract class Level {
 		}
 
 	}
+	public int getCurrentWave() {return wave;}
+	public int getWavesLeft() {return maxWaves;}
+
 	protected void removeCluster(int index){
 		Clusters.remove(index);
+		if(index != in){
+			in--;
+		}
+		in--;
 	}
 
 	protected void createCluster(int x, int y, int rows, int col, int type){
 
 		Clusters.add(new Cluster(x, y, rows, col, type));
-
-	}
-
-	protected void createSpecialEnemy(int x, int y, int type){
-
-		sE.add(new Enemy(x,y,type));
 
 	}
 
@@ -169,38 +234,13 @@ public abstract class Level {
 		}
 	}
 
-	public void keyRelease(KeyEvent e){
+	public void addBullet(Player p, int x, int y, int d, int s) {
 
+		b.add(new Bullets(p, x, y, d));
+		b.get(b.size()-1).setBSpeed(s);
 	}
-
-	public void mouseRelease(MouseEvent e) {
-
+	
+	public void lose(){
+		running = false;
 	}
-
-	public void mouseExit(MouseEvent e) {
-
-	}
-
-	public void mouseEnter(MouseEvent e) {
-
-	}
-
-	public void mouseClick(MouseEvent e) {
-
-	}
-
-	public void mouseMove(MouseEvent e) {
-		mouse = e.getPoint();
-	}
-
-	public void mousePress(MouseEvent e) {
-
-	}
-
-	public void addBullet(Player p, int x, int y) {
-
-		b.add(new Bullets(p, x, y));
-
-	}
-
 }

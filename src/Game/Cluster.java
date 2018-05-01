@@ -1,18 +1,22 @@
 package Game;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 
+import CollsionDetection.CollisionDetection;
 import Graphics.ImageManager;
 import Projectiles.Bullets;
 import levelManagement.GameStateManager;
+import levelManagement.PlayerInfo;
 
-public class Cluster extends MapObject {
+public class Cluster extends MapObject implements CollisionDetection{
 
 	private Enemy[][] e;
 	private int rows,columns;
 	private int rightmostX;
 	public boolean allDead = false;
+	private boolean elementOffScreen = false;
 
 	public Cluster(int sx, int sy, int rows, int cols, int type) {
 		super(sx, sy);
@@ -42,9 +46,9 @@ public class Cluster extends MapObject {
 		}
 	}
 
-	public void update(ArrayList<Bullets> b){
-		
-		
+	public void update(ArrayList<Bullets> b, Player p){
+
+
 		for(int i = rows-1; i > -1; i--){
 			for(int j = columns-1; j > -1; j--){
 				if(!e[i][j].isDead){
@@ -53,7 +57,7 @@ public class Cluster extends MapObject {
 				}
 			}
 		}
-		
+
 		for(int i = 0; i < rows; i++){
 			for(int j = 0; j < columns; j++){
 				if(!e[i][j].isDead){
@@ -61,72 +65,244 @@ public class Cluster extends MapObject {
 				}
 			}
 		}
-		
-		if(y<100){for(int i = 0; i < rows; i++){
+
+		for(int i = 0; i < rows; i++){
 			for(int j = 0; j < columns; j++){
-				if(!e[i][j].isDead){
-					e[i][j].setY(e[i][j].getY() + 2);
+				if(e[i][j].isOffScreen()){
+					elementOffScreen = true;
 				}
 			}
-		}}
-		
+		}
+
+		if(elementOffScreen){
+			GameStateManager.Lose();
+		}
+
+		if(y<100){
+			for(int i = 0; i < rows; i++){
+				for(int j = 0; j < columns; j++){
+					if(!e[i][j].isDead){
+						e[i][j].setY(e[i][j].getY() + 2);
+					}
+				}
+			}
+		}
+
 		for(int i = 0; i < b.size(); i++){
-			if(b.get(i).getDamage() == 0){
+			if(b.get(i).getDamage() <= 0){
 				b.remove(i);
 			}
 		}
-		
+
 		for(int i = 0; i < b.size(); i++){
-			
+
 			for(int j = 0; j < rows; j++){
 				for(int k = 0; k < columns; k++){
-					
-					if(CollisionDetection.collidesWith(e[j][k], b.get(i))){						
+
+					if(collidesWith(e[j][k], b.get(i))){						
 						if(!e[j][k].isDead){
-							e[j][k].hit(b.get(i).getDamage());
-							b.get(i).setDamage(0);
-							GameStateManager.incrementPlayer(5);
-							}
-						
+							int d = b.get(i).getDamage();
+							int h = e[j][k].getHealth();
+							e[j][k].hit(d);
+							b.get(i).setDamage(d - h);
+						}
+
 					}
-					
+
 				}
 			}
-			
+
 		}
-		
+
+		for(int i = 0; i < rows; i++) {
+			for(int j = 0; j < columns; j++) {
+				if(e[i][j] != null) {
+					if(!e[i][j].isDead) {
+						if(collidesWith(e[i][j], p)) {
+							GameStateManager.Lose();
+						}
+					}
+				}
+			}
+		}
+
 		if(x <= 0){
 			lt = false;
 			for(int i = 0; i < rows; i++){
 				for(int j = 0; j < columns; j++){
-					e[i][j].setY(e[i][j].getY()+(e[i][j].getH()/2));
-					e[i][j].setLt(false);
+					e[i][j].setY(e[i][j].getY()+(e[i][j].getH()/4));
+					e[i][j].setLt(lt);
 				}
 			}
 		}
-		
+
 		if(rightmostX > GamePanel.WIDTH ){
 			lt = true;
 			for(int i = 0; i < rows; i++){
 				for(int j = 0; j < columns; j++){
-					e[i][j].setY(e[i][j].getY()+(e[i][j].getH()/2));
+					e[i][j].setY(e[i][j].getY()+(e[i][j].getH()/4));
 					e[i][j].setLt(lt);
 				}
 			}
 			rightmostX = x + e[0][0].getW();
 		}
-		
+
 		allDead = true;
 
 		for(int i = 0; i < rows; i++){
 			for(int j = 0; j < columns; j++){
 				e[i][j].update();
 				if(!e[i][j].isDead){
-					allDead = false;
+					allDead = false; 
 				}
 			}
 		}
 
 	}
 
+	public void reset(){
+
+		x = 450;
+
+		for(int i = 0; i < rows; i++){
+			for(int j = 0; j < columns; j++){
+				e[i][j].setX(x + (j * (100)));
+				e[i][j].setY(y + (i*(100)));
+			}
+		}
+		elementOffScreen = false;
+	}
+
+	@Override
+	public boolean collidesWith(MapObject o1, MapObject o2) {
+
+
+		switch(RectangularCollsion(o1,o2)){
+
+		case 0:
+
+			return circularCollision(o1,o2);
+
+		case 1:
+
+			return circleToRectCollision(o1, o2);
+
+		case 2:
+
+			return true;
+		}
+
+		return false;
+
+
+	}
+
+	@Override
+	public boolean circularCollision(MapObject o1, MapObject o2) {
+
+		double ax = o1.getX();
+		double ay = o1.getY();
+		double ar = o1.getR();
+
+		ax = ax + (ar/2);
+		ay = ay +(ar/2);
+
+		double bx = o2.getX();
+		double by = o2.getY();
+		double br = o2.getR();
+
+		bx = bx + (br/2);
+		by = by +(br/2);
+
+		double dx = bx - ax;
+		double dy = by - ay;
+		double dist = Math.sqrt((dx*dx)+(dy*dy));
+
+		if(dist < br + ar){
+
+			return true;
+
+		}
+
+		else {return false;}
+
+	}
+
+	@Override
+	public boolean circleToRectCollision(MapObject o1, MapObject o2) {
+
+		if(o1.isRect()){
+
+			double ax = o1.getX();
+			double ay = o1.getY();
+			double aw = o1.getCw();
+			double ah = o1.getCh();
+
+			double bx = o2.getX();
+			double by = o2.getY();
+			double br = o2.getR();
+
+			bx = bx + (br/2);
+			by = by + (br/2);
+
+			//B Circle A Rectangle
+
+			double dx = bx - Math.max(ax, Math.min(bx, ax + aw));
+			double dy = by - Math.max(ay, Math.min(by, ay + ah));
+
+			return ((dx * dx + dy * dy) < (br * br));
+		}
+
+		else if(o2.isRect()){
+
+			double ax = o2.getX();
+			double ay = o2.getY();
+			double aw = o2.getCw();
+			double ah = o2.getCh();
+
+			double bx = o1.getX();
+			double by = o1.getY();
+			double br = o1.getR();
+
+			bx = bx + (br/2);
+			by = by + (br/2);
+
+			//B Circle A Rectangle
+
+			double dx = bx - Math.max(ax, Math.min(bx, ax + aw));
+			double dy = by - Math.max(ay, Math.min(by, ay + ah));
+
+			return (dx * dx + dy * dy) < (br * br);
+		}
+
+		return false;
+	}
+
+	@Override
+	public int RectangularCollsion(MapObject o1, MapObject o2) {
+		Rectangle r1 = getRectangle(o1);
+		Rectangle r2 = getRectangle(o2);
+
+		if((r1.isEmpty()) && (r2.isEmpty())){
+			return 0;
+		} 
+
+		else if(((r1.isEmpty()) && !(r2.isEmpty())) || ((!r1.isEmpty()) && (r2.isEmpty()))){
+			return 1;
+		}
+
+		else if((r1.intersects(r2))){
+
+			return 2;
+		}
+
+		return 3;
+	}
+
+	private static Rectangle getRectangle(MapObject o){
+		if(o.isRect()){
+			return new Rectangle((int)o.getX(), (int)o.getY(), o.getCw(), o.getCh());
+		} else return new Rectangle(0,0,0,0);
+
+	}
 }

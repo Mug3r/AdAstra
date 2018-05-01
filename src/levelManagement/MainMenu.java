@@ -13,7 +13,7 @@ public class MainMenu extends Level{
 
 	private int choice;
 	private Background strip;
-
+	private boolean instructMeSenpai = false;
 	public MainMenu(){
 		
 		super(0);
@@ -32,69 +32,90 @@ public class MainMenu extends Level{
 	public void Update(){
 		super.Update();
 		strip.Update();
+
+
 	}
 
 	public void draw(Graphics2D g){
-		
+
 		super.draw(g);
 		strip.Render(g);
 		g.drawImage(ImageManager.Title, 0,0,null);
-		
-		Font stringFont = new Font( "Segoe UI Light", Font.PLAIN, 40 );
 
-		g.setFont(stringFont);
-
-		switch(choice) {
-
-		case 0:
-					
-			g.fillRect(0, 640, 900, 60);
-			g.setColor(new Color(30,49,86));
-			g.drawString("Play", 430, 680);	
-			g.setColor(new Color(255,255,255,180));
-			g.drawString("Quit", 430, 740);
-			break;
-
-		case 1:
-			g.setColor(new Color(255,255,255));
-			g.drawString("Play", 430, 680);
-			g.setColor(new Color(255,255,255,180));
-			g.fillRect(0, 700, 900, 60);
-			g.setColor(new Color(30,49,86));
-			g.drawString("Quit", 430, 740);
-			break;
-
+		if(!instructMeSenpai){
+			g.drawImage(ImageManager.menu[choice], 0, 0, null);	
+		} else{
+			g.drawImage(ImageManager.menu[choice], 0, 0, null);
 		}
 	}
 
 	public void keyPress(KeyEvent e){
 
-		super.keyPress(e);
-
-		if(e.getKeyCode() == KeyEvent.VK_UP) {
-			choice--;
-			if(choice < 0) {
-				choice = 1;
+		
+		if(!instructMeSenpai){
+			super.keyPress(e);
+			if(e.getKeyCode() == KeyEvent.VK_UP) {
+				choice--;
+				if(choice < 1) {
+					choice = 3;
+				}
 			}
-		}
 
-		if(e.getKeyCode() == KeyEvent.VK_DOWN) {
-			choice++;
-			if(choice > 1) {
+			if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+				choice++;
+				if(choice > 3) {
+					choice = 1;
+				}
+			}
+
+			if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+				if(choice == 0) {
+
+				} else if(choice == 1){
+					GameStateManager.transition(1000, "- Level 1 -");;
+				} else if(choice == 2) {
+					GameStateManager.exit();
+				} else if(choice == 3){
+					GameStateManager.Highscores();
+				}
+			}
+
+			if(e.getKeyCode() == KeyEvent.VK_I){
+				instructMeSenpai = !instructMeSenpai;
+				choice = 4;
+			}
+
+		} else{
+			if(e.getKeyCode() == KeyEvent.VK_LEFT){
+
+				if(choice <= 4){
+					choice = 5;
+				} else{
+					choice--;
+				}
+
+			}
+			if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+
+				if(choice >= 5){
+					choice = 4;
+				} else{
+					choice++;
+				}
+
+			}
+			if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+
 				choice = 0;
+				instructMeSenpai = false;
 			}
-		}
 
-		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-			if(choice == 0) {
-				GameStateManager.start(2000);
-			} else if(choice == 1) {
-				GameStateManager.exit();
-			}
 		}
 
 
+	}
 
+	public void keyReleased(KeyEvent e){
 
 	}
 

@@ -13,8 +13,6 @@ public abstract class MapObject {
 	protected double dx, dy;
 	protected int speed;
 	
-	
-	
 	protected int health;
 	
 	protected boolean lt, rt;

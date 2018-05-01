@@ -9,11 +9,17 @@ import Graphics.ImageManager;
 
 public class Transition extends Level {
 
-	private int a = 255, d = -5;
-	
+	private int a = 0, d = 1;
+	private String Message = "Loading...";
 	public Transition(){
 		bg.setdX(-1);
 		bg.setdY(-0.3);
+		running = true;
+	}
+	public Transition(String m){
+		bg.setdX(-0.5);
+		bg.setdY(-0.3);
+		Message = m;
 		running = true;
 	}
 	
@@ -21,7 +27,7 @@ public class Transition extends Level {
 		super.Update();
 		a += d;
 		if(a + d <= 0){
-			d= 5;
+			d = 5;
 		}
 		if(a + d >= 255){
 			d = -5;
@@ -34,12 +40,12 @@ public void draw(Graphics2D g){
 		
 		//g.drawImage(ImageManager.Title, 0,150,null);
 		
-		Font stringFont = new Font( "Segoe UI Light", Font.PLAIN, 100 );
+		Font stringFont = new Font( "OCR A Extended", Font.PLAIN, 90 );
 
 		g.setFont(stringFont);
 		
 			g.setColor(new Color(255,255,255, a));
-			g.drawString("Loading...", 300, 380);	
+			g.drawString(Message, 110, 510);	
 			
 		}
 
