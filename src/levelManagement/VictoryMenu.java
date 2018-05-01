@@ -14,6 +14,9 @@ public class VictoryMenu extends Level {
 	private boolean cont = true;
 	public static boolean once = false;
 
+	/*
+	 * The menu shown when the player wins
+	 */
 	public VictoryMenu() {
 		super(0);
 		bgdx = 5;

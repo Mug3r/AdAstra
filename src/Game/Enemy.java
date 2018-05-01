@@ -38,13 +38,13 @@ public class Enemy extends MapObject {
 			break;
 		
 		case 1:
-			health = 1;
-			dx = 4;
+			health = 3;
+			dx = 3;
 			lt = false;
 			break;
 			
 		case 2:
-			health = 1;
+			health = 2;
 			dx = -4;
 			lt = true;
 			break;
@@ -55,9 +55,6 @@ public class Enemy extends MapObject {
 			lt = false;
 			break;
 			
-		case 4:
-			break;
-		
 		}
 		
 	}

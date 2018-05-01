@@ -11,12 +11,17 @@ public class Transition extends Level {
 
 	private int a = 0, d = 1;
 	private String Message = "Loading...";
+	/*
+	 * A screen shown between levels to show which level the player is on 
+	 */
 	public Transition(){
+		super(0);
 		bg.setdX(-1);
 		bg.setdY(-0.3);
 		running = true;
 	}
 	public Transition(String m){
+		super(0);
 		bg.setdX(-0.5);
 		bg.setdY(-0.3);
 		Message = m;

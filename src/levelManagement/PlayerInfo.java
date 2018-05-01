@@ -32,7 +32,9 @@ public class PlayerInfo {
 		"Savato S", "Agate B", "Agate L", "Agate SE", "Cortano L", "Savato X", "Agate MKII", "Anubis A", "Astrea F"
 	};
 	
-	
+	/*Player specific management of variables including the damage done and attack
+	 * rate of each ship, their score and the names of each ship, lives etc
+	 */
 	public PlayerInfo(Player p){
 		this.p = p;
 		score = 0;
@@ -60,7 +62,9 @@ public class PlayerInfo {
 			power = requiredPower[8];
 		}
 	}
-	
+	/*Draws and bar at the bottom to measure the players xp to next level
+	 * triangles for their total lives score the name of their ship in the amount of damage it does
+	 */
 	public void draw(Graphics2D g){
 		
 	
@@ -83,7 +87,10 @@ public class PlayerInfo {
 		g.drawString(GameStateManager.getCurrentWave() +"/"+GameStateManager.getMaxWaves(), 450, 25);
 		g.drawString(score + "", 90, 32);
 	}
+	//if the player loses a life
 	public void loseLife(){p.hit(1);}
+	
+	//Getters and Setter for lives and Score
 	public static int getLives(){return lives;}
 
 	public static void incrementScore(int d) {score += d;}

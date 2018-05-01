@@ -13,6 +13,10 @@ public class PauseMenu extends Level {
 	private int choice;
 	private int a = 255, da = -5; 
 
+	
+	/*Pause menu for the game shown when the player is in game and presses escape, everything
+	 * onscreen stops and waits until the player either resumes the game or closes it
+	 */
 	public PauseMenu() {
 		super(0);
 		choice = 0;

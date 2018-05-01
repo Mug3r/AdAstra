@@ -13,7 +13,13 @@ public class MainMenu extends Level{
 
 	private int choice;
 	private Background strip;
+	//Just for whether the player is looking at the instructions screen :)
 	private boolean instructMeSenpai = false;
+	
+	/*The games main menu behaves like a standard menu 
+	 * with a few specific choices, shows at the start of the game and takes
+	 * the users name for scoring purposes(unimplemented)
+	 */
 	public MainMenu(){
 		
 		super(0);
@@ -48,6 +54,8 @@ public class MainMenu extends Level{
 		}
 	}
 
+	//Interrupts
+	
 	public void keyPress(KeyEvent e){
 
 		

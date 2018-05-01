@@ -29,7 +29,7 @@ public class Player extends MapObject {
 
 		super((GamePanel.WIDTH - 80)/2, (GamePanel.HEIGHT - (ImageManager.playerSprites[0].getHeight()/2 + 60)));
 		level  = 0;
-		health = 0;
+		health = 3;
 		sprite = ImageManager.playerSprites[level];
 
 		speed = 4;
