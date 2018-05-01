@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import Game.*;
 import Graphics.ImageManager;
+import Main.GamePanel;
 import Projectiles.Bullets;
 
 public abstract class Level {

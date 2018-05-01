@@ -5,9 +5,9 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-import Game.GamePanel;
 import Game.Player;
 import Graphics.ImageManager;
+import Main.GamePanel;
 
 public class PlayerInfo {
 

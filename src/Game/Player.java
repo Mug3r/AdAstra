@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import Graphics.ImageManager;
+import Main.GamePanel;
 import Projectiles.Bullets;
 import levelManagement.GameStateManager;
 import levelManagement.Level;

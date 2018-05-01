@@ -4,8 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 
-import Game.GamePanel;
 import Graphics.ImageManager;
+import Main.GamePanel;
 
 public class Transition extends Level {
 

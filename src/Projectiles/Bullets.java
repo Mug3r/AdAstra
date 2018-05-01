@@ -3,10 +3,10 @@ package Projectiles;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-import Game.GamePanel;
 import Game.MapObject;
 import Game.Player;
 import Graphics.ImageManager;
+import Main.GamePanel;
 
 public class Bullets extends MapObject {
 

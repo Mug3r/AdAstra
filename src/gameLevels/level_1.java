@@ -1,7 +1,7 @@
 package gameLevels;
 
-import Game.GamePanel;
 import Graphics.ImageManager;
+import Main.GamePanel;
 import levelManagement.Background;
 import levelManagement.Level;
 import levelManagement.Transition;

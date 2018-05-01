@@ -2,8 +2,6 @@ package Main;
 
 import javax.swing.JFrame;
 
-import Game.GamePanel;
-
 public class Boot {
 	private static JFrame window;
 	

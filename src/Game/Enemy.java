@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 
 import CollsionDetection.CollisionDetection;
 import Graphics.ImageManager;
+import Main.GamePanel;
 import levelManagement.GameStateManager;
 import levelManagement.PlayerInfo;
 

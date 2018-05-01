@@ -6,11 +6,10 @@ import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-
-import Game.GamePanel;
 import Game.Player;
 import Graphics.ImageManager;
 import Main.Boot;
+import Main.GamePanel;
 import gameLevels.*;
 
 public class GameStateManager {

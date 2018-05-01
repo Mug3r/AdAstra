@@ -5,6 +5,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 import Graphics.ImageManager;
+import Main.GamePanel;
 
 public abstract class MapObject {
 

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import CollsionDetection.CollisionDetection;
 import Graphics.ImageManager;
+import Main.GamePanel;
 import Projectiles.Bullets;
 import levelManagement.GameStateManager;
 import levelManagement.PlayerInfo;

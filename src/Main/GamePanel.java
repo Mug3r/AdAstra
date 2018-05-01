@@ -1,4 +1,4 @@
-package Game;
+package Main;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -13,7 +13,6 @@ import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
 import Graphics.ImageManager;
-import Main.Boot;
 import levelManagement.GameStateManager;
 
 

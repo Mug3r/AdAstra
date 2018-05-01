@@ -5,8 +5,8 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
-import Game.GamePanel;
 import Graphics.ImageManager;
+import Main.GamePanel;
 
 public class PauseMenu extends Level {
 
