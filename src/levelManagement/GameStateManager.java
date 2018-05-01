@@ -69,20 +69,7 @@ public class GameStateManager {
 
 
 		state = MENUSTATE;
-		SoundLoader.loadSound("/MenuSong.mp3");
 		menus[menu].startLevel();
-
-
-	public static void pause(){
-		menu = 1;
-		lastState = state;
-		state = PAUSED;
-		SoundLoader.loadSound("/MenuSong.mp3");
-	}
-
-	public static void resume(){
-		state = lastState;
-	}
 
 		username = JOptionPane.showInputDialog("Enter a username" , null);
 
@@ -90,7 +77,7 @@ public class GameStateManager {
 		p = new Player(username);
 		pI = new PlayerInfo(p);
 	}
-
+	//Update the specific current state/level
 	public void update() {
 
 		if(!transitioning){
@@ -114,7 +101,7 @@ public class GameStateManager {
 			}
 		}
 	}
-
+	//Draw the specific current state/level
 	public void draw(Graphics2D g) {		
 
 		if(!transitioning){
@@ -143,6 +130,7 @@ public class GameStateManager {
 
 	}
 
+	//Special Controls
 
 	public static void nextLevel(){
 
@@ -175,8 +163,6 @@ public class GameStateManager {
 		state = MENUSTATE;
 
 	}
-
-
 
 	public static void resetLevel(){
 		levels[level].reset();
@@ -216,9 +202,6 @@ public class GameStateManager {
 		
 	}
 
-
-
-
 	public static void transition(int s, String m){
 
 		tDelay = s;
@@ -226,7 +209,6 @@ public class GameStateManager {
 		transitioning = true;
 		lastTime = System.currentTimeMillis();
 	}
-
 
 	public static void pause(){
 		menu = 1;
@@ -238,6 +220,7 @@ public class GameStateManager {
 		state = lastState;
 	}
 
+	//Interrupts always accessible at any moment by keyboard input
 
 	public static void escape(){
 		if(state == MENUSTATE){
@@ -273,8 +256,6 @@ public class GameStateManager {
 		}
 
 	}
-
-
 
 	public void keyPressed(KeyEvent e) {
 
@@ -350,6 +331,7 @@ public class GameStateManager {
 
 	}
 
+	//Getters and one Setter
 
 	public static Level getCurrentLevel(){
 		return levels[level];

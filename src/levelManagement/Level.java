@@ -22,8 +22,6 @@ public abstract class Level {
 	protected int lastMenu;
 	protected ArrayList<Cluster> Clusters;
 	protected ArrayList<Bullets> b;
-	protected int mouseX, mouseY;
-	protected Point mouse;
 	protected boolean running = false;
 	protected int wave, maxWaves, in, diffConst, rowsE, rowsH, colsE, colsH;
 	protected String nextLevel;
@@ -33,16 +31,13 @@ public abstract class Level {
 
 	private int type = 0;
 
-	public Level(){
-		Clusters = new ArrayList<Cluster>();
-		b = new ArrayList<Bullets>();
-		mouse = new Point(0,0);
-	}
+	/*Abstract class that manages all the levels in the game
+	 * including menus and actual game levels
+	 */
 
 	public Level(int type){
-
+		//determines if Menu or Level
 		this.type = type;
-		mouse = new Point(0,0);
 		
 
 		switch(type){
@@ -63,13 +58,13 @@ public abstract class Level {
 		}
 
 	}
-
+	//Starts the current level and allows enemies/options to move/be selected
 	public void startLevel(){
 		running = true;
 		bg.setdX(bgdx);
 		bg.setdY(bgdy);
 	}
-
+	//used to advance the game with a default transition speed
 	protected void levelComplete(){
 		running = false;
 		GameStateManager.transition(1700, nextLevel);
@@ -80,7 +75,7 @@ public abstract class Level {
 			bg.Update();
 		}
 	}
-
+	//Update the game Levels using a player object to check collsion with the player bullets and enemies
 	public void Update(Player p){
 
 		if(running){
@@ -179,7 +174,7 @@ public abstract class Level {
 		}
 
 	}
-
+	//resets the level by moving all active clusters far up to the top of the screen and remove all the bullets on screen
 	public void reset(){
 		for(int i = 0; i < Clusters.size(); i++){
 			Clusters.get(i).setY(-1205*i);
@@ -188,7 +183,6 @@ public abstract class Level {
 		for(int i = 0; i < b.size(); i++){
 			b.remove(i);
 		}
-		System.out.println("1");
 		running = true;
 	}
 	
@@ -208,9 +202,16 @@ public abstract class Level {
 		}
 
 	}
-	public int getCurrentWave() {return wave;}
-	public int getWavesLeft() {return maxWaves;}
+	
+	/*Cluster controls to add or remove clusters of enemies, the in variable is used to mediate the
+	 * the rate by which waves are spawned on  the screen and limit multiple waves spawning at once
+	 * to two
+	 */
+	protected void createCluster(int x, int y, int rows, int col, int type){
 
+		Clusters.add(new Cluster(x, y, rows, col, type));
+
+	}
 	protected void removeCluster(int index){
 		Clusters.remove(index);
 		if(index != in){
@@ -219,12 +220,12 @@ public abstract class Level {
 		in--;
 	}
 
-	protected void createCluster(int x, int y, int rows, int col, int type){
+	//Getters
+	
+	public int getCurrentWave() {return wave;}
+	public int getWavesLeft() {return maxWaves;}
 
-		Clusters.add(new Cluster(x, y, rows, col, type));
-
-	}
-
+	//Interrupts that are common to all levels and menus
 	public void keyPress(KeyEvent e){
 		if(e.getKeyCode() == KeyEvent.VK_Q){
 			GameStateManager.exit();
@@ -233,13 +234,13 @@ public abstract class Level {
 			GameStateManager.escape();
 		}
 	}
-
+	//Adds a bulelt to the current level from the player and sets its speed
 	public void addBullet(Player p, int x, int y, int d, int s) {
 
 		b.add(new Bullets(p, x, y, d));
 		b.get(b.size()-1).setBSpeed(s);
 	}
-	
+	//disable the level if the player loses
 	public void lose(){
 		running = false;
 	}

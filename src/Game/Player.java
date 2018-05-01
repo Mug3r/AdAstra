@@ -11,6 +11,11 @@ import levelManagement.PlayerInfo;
 
 public class Player extends MapObject {
 
+	/*The player's ship is managed from this class it extends mapobject and hold msot game-related
+	 * variables and info, the PlayerInfo class hold relevant aspects that are unique to the player
+	 * as a non map object
+	 */
+	
 	private boolean lt = false, rt = false;
 	private boolean firing = false;
 	private int power = 0;
@@ -19,7 +24,7 @@ public class Player extends MapObject {
 	private int tt = 400;
 	private String user;
 
-
+	//doubles up the super constructor and its own for specific tweaks
 	public Player(String u) {	
 
 		super((GamePanel.WIDTH - 80)/2, (GamePanel.HEIGHT - (ImageManager.playerSprites[0].getHeight()/2 + 60)));
@@ -102,13 +107,14 @@ public class Player extends MapObject {
 
 	}
 
+	//Bullets are fired at a interval specific to the player's current level
 	public void addBullet(Level l, Player p) {
 		int lx = x + (int)((double)(Math.sin(Math.toRadians((Math.abs(angle)/angle)*angle))));
 		int ly = y + (int)((double)(Math.cos(Math.toRadians((Math.abs(angle)/angle)*angle))));
 		int cx = lx + sprite.getWidth()/4 - ImageManager.laser[p.getLevel()].getWidth()/2;
 		int cy = ly + sprite.getHeight()/4;
 		elapsed = System.currentTimeMillis() - last;
-		//if(elapsed > tt){
+		
 
 		switch(level){
 		case 0:
@@ -142,11 +148,9 @@ public class Player extends MapObject {
 			break;
 		}
 
-		//last = System.currentTimeMillis();
-		//}
 
 	}
-
+	//Leveling up the player
 	public void levelUp(){
 		power = 0;
 		level++; 
@@ -155,14 +159,7 @@ public class Player extends MapObject {
 		y = GamePanel.HEIGHT - (h +100);
 	}
 	
-	public void setLevel(int l){
-		power = 0;
-		level = l; 
-		sprite = ImageManager.playerSprites[level]; 
-		w = sprite.getWidth()/2; h = sprite.getHeight()/2; 
-		y = GamePanel.HEIGHT - (h +100);
-	}
-	
+	//Getters and setters
 	public String getName() {
 		
 		return user;

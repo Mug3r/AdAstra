@@ -26,7 +26,6 @@ public class MainMenu extends Level{
 		bgdy = 0;
 		running = true;
 		
-		
 	}
 
 	public void Update(){

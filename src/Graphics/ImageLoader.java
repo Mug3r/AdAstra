@@ -7,7 +7,9 @@ import javax.imageio.ImageIO;
 
 
 public class ImageLoader {
-	
+	/*Loads image resources that the game will use managed in the ImageManager class 
+	 * For use throughout the program.
+	 */
 	public static BufferedImage loadImage(String path){
 		try {
 			return ImageIO.read(ImageLoader.class.getResource(path));

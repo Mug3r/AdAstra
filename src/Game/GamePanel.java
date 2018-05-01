@@ -90,7 +90,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		//Loop control
 		running = true;
 
-
 	}
 
 	@Override

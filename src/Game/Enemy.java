@@ -9,13 +9,13 @@ import levelManagement.GameStateManager;
 import levelManagement.PlayerInfo;
 
 public class Enemy extends MapObject {
-
+	//type of enemy
 	private int type;
 	
 	public Enemy(int x, int y, int t) {
-	
+		//calls super constructor to position enemy
 		super(x,y);
-		
+		//enemy specific constructor
 		this.type = t;
 		if(t <= 3){
 			sprite = ImageManager.alienSprites[t];
@@ -61,7 +61,7 @@ public class Enemy extends MapObject {
 		}
 		
 	}
-	
+	//if hit lose health and if dead give the player experience and score
 	public void hit(int d){
 		super.hit(d);
 		if(health <= 0){
@@ -87,12 +87,13 @@ public class Enemy extends MapObject {
 		} else{return;}
 		
 	}
+	//overrides the offscreen method becuase we only care if the enemies go out the bottom of the screen otherwise they will end up back on screen
 	@Override
 	public boolean isOffScreen(){		
 		return (y + (h+15) > GamePanel.HEIGHT);
 	}
 		
-	
+	//getters and setters
 	public boolean getLt() {return lt;}
 	public void setLt(boolean b) {lt = b;}
 	

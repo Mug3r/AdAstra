@@ -24,6 +24,9 @@ public class ImageManager {
 	public static BufferedImage highScores;
 	public static BufferedImage victory;
 	
+	/*Manages all the images used in the game, note for compilation via command line folder structure may 
+	 * need to be adjusted use a bin folder set up like this.
+	 */
 	public ImageManager(){
 		
 		BufferedImage[] pSprites = load("/gfx/Sprites/PlayerSprites/playerSprites.png", 200, 189);

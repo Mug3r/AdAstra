@@ -13,6 +13,10 @@ public class Background {
 	private double dx, dy;
 	private int w, h;
 
+	/*The image that scrolls in the back of the game throughout all menus and levels
+	 * common to all levels and menus each adjusts the speed of the background
+	 */
+	
 	public Background(BufferedImage b){
 		bg = b;
 		x = 0;
@@ -22,7 +26,7 @@ public class Background {
 		w = b.getWidth();
 		h = b.getHeight();
 	}
-
+	//Move backgorund
 	public void Update(){
 
 		x += dx;
@@ -30,11 +34,7 @@ public class Background {
 
 	}
 
-	public void setdX(double dx){this.dx = dx;}
-	public void setdY(double dy){this.dy = dy;}
-	public void setX(double x){this.x = x;}
-	public void setY(double y){this.y = y;}
-
+	//Draw to image
 	public void Render(Graphics2D g){
 		g.drawImage(bg, (int) x, (int) y, null);
 		
@@ -70,5 +70,11 @@ public class Background {
 			}
 		
 	}
+	//Getters and setters
+	public void setdX(double dx){this.dx = dx;}
+	public void setdY(double dy){this.dy = dy;}
+	public void setX(double x){this.x = x;}
+	public void setY(double y){this.y = y;}
+
 
 }

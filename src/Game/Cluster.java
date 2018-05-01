@@ -12,9 +12,14 @@ import levelManagement.PlayerInfo;
 
 public class Cluster extends MapObject implements CollisionDetection{
 
+	
+	//Resolves enemies into a dynamic nxm 2D array of enemies that move as a unit
 	private Enemy[][] e;
 	private int rows,columns;
+	
+	//rightmost boundary of the cluster
 	private int rightmostX;
+	//used to see if all enemies in cluster are dead or offScreen
 	public boolean allDead = false;
 	private boolean elementOffScreen = false;
 
@@ -23,6 +28,7 @@ public class Cluster extends MapObject implements CollisionDetection{
 		createCluster(rows, cols, type);
 	}
 
+	//creates a cluster of enemies of this size and type
 	private void createCluster(int r, int c, int type){
 
 		rows = r;
@@ -37,7 +43,7 @@ public class Cluster extends MapObject implements CollisionDetection{
 			}
 		}
 	}
-
+	//draws
 	public void draw(Graphics2D g){
 		for(int i = 0; i < rows; i++){
 			for(int j = 0; j < columns; j++){
@@ -45,10 +51,10 @@ public class Cluster extends MapObject implements CollisionDetection{
 			}
 		}
 	}
-
+	//Updates clusters checking for collisions with bullets or the player to remove health or lose a life respectively
 	public void update(ArrayList<Bullets> b, Player p){
 
-
+		//checks for the top right most enemy as the x position of the entire cluster for wall collision
 		for(int i = rows-1; i > -1; i--){
 			for(int j = columns-1; j > -1; j--){
 				if(!e[i][j].isDead){
@@ -57,7 +63,7 @@ public class Cluster extends MapObject implements CollisionDetection{
 				}
 			}
 		}
-
+		//Checks the rightmost x
 		for(int i = 0; i < rows; i++){
 			for(int j = 0; j < columns; j++){
 				if(!e[i][j].isDead){
@@ -65,7 +71,7 @@ public class Cluster extends MapObject implements CollisionDetection{
 				}
 			}
 		}
-
+		//Checks if any enemies are at the bottom of the screen(Enemies overrides the isOffScreen method of Mapobject to only check for the bottom)
 		for(int i = 0; i < rows; i++){
 			for(int j = 0; j < columns; j++){
 				if(e[i][j].isOffScreen()){
@@ -73,11 +79,11 @@ public class Cluster extends MapObject implements CollisionDetection{
 				}
 			}
 		}
-
+		//If an enemy is off screen lose a life
 		if(elementOffScreen){
 			GameStateManager.Lose();
 		}
-
+		//If the cluster is above a certain height make it mvoe down linearly
 		if(y<100){
 			for(int i = 0; i < rows; i++){
 				for(int j = 0; j < columns; j++){
@@ -87,13 +93,18 @@ public class Cluster extends MapObject implements CollisionDetection{
 				}
 			}
 		}
-
+		//Checks for and removes spent bullets
 		for(int i = 0; i < b.size(); i++){
 			if(b.get(i).getDamage() <= 0){
 				b.remove(i);
 			}
 		}
-
+		for(int i = 0; i < b.size(); i++){
+			if(b.get(i).isOffScreen()){
+				b.remove(i);
+			}
+		}
+		//bullet - enemy collision
 		for(int i = 0; i < b.size(); i++){
 
 			for(int j = 0; j < rows; j++){
@@ -113,7 +124,7 @@ public class Cluster extends MapObject implements CollisionDetection{
 			}
 
 		}
-
+		//Enenmy - Player collision
 		for(int i = 0; i < rows; i++) {
 			for(int j = 0; j < columns; j++) {
 				if(e[i][j] != null) {
@@ -125,7 +136,7 @@ public class Cluster extends MapObject implements CollisionDetection{
 				}
 			}
 		}
-
+		//Boundary value, moves the clsuter down if they are at a boundary (Left or right edge of screen)
 		if(x <= 0){
 			lt = false;
 			for(int i = 0; i < rows; i++){
@@ -135,7 +146,6 @@ public class Cluster extends MapObject implements CollisionDetection{
 				}
 			}
 		}
-
 		if(rightmostX > GamePanel.WIDTH ){
 			lt = true;
 			for(int i = 0; i < rows; i++){
@@ -147,6 +157,7 @@ public class Cluster extends MapObject implements CollisionDetection{
 			rightmostX = x + e[0][0].getW();
 		}
 
+		//Negative logic test for if all the enemies in a cluster are dead
 		allDead = true;
 
 		for(int i = 0; i < rows; i++){
@@ -159,6 +170,8 @@ public class Cluster extends MapObject implements CollisionDetection{
 		}
 
 	}
+	
+	//resets clusters and moves enemies together for reseting the level
 
 	public void reset(){
 
@@ -172,7 +185,7 @@ public class Cluster extends MapObject implements CollisionDetection{
 		}
 		elementOffScreen = false;
 	}
-
+	//collsions
 	@Override
 	public boolean collidesWith(MapObject o1, MapObject o2) {
 

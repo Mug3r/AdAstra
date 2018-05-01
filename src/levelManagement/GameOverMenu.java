@@ -13,7 +13,9 @@ public class GameOverMenu extends Level {
 	private Background strip;
 	private boolean cont = true;
 	public static boolean once = false;
-
+	/*Menu displayed when the player is out of lives
+	 *A bit buggy in terms of restarting at the main menu but everything works out somehow
+	 */
 	public GameOverMenu() {
 		super(0);
 		bgdx = 5;

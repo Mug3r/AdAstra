@@ -17,6 +17,10 @@ public class HighscoresMenu extends Level {
 	private int us;
 	private String un;
 
+	/*Unimplemented highscores menu that shows the players score against the highscores in the game
+	 * scanner method wasnt working properly and ran out of time tbc later
+	 */
+	
 	public HighscoresMenu(int lm) {
 		super(0);
 		bgdx = 5;
