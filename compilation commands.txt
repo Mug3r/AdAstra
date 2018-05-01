@@ -1,0 +1,21 @@
+javac -classpath ./src/*/*.java
+or
+javac -sourcepath src -d bin src/**/*.java
+or
+
+{
+javac -d bin src\Main\*.java src\Game\*.java src\CollisionDetection\*.java src\gameLevels\*.java src\Graphics\*.java src\levelManagement\*.java src\Projectiles\*.java
+
+heres a cool one:
+find -name "*.java" > source.txt
+javac -d bin @source.txt
+}
+
+running 3 
+
+java -cp .:build:**/*.class Main.Boot
+or
+java -cp .;build;**/*.class Main.Boot
+
+
+https://code.i-harness.com/en/q/35991b
