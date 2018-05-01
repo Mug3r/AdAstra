@@ -40,8 +40,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	
 	//GameStateManager, used to manage levels and the status of the game as a whole, I.E. player info like lives and score as well as which level to play when and whether or not the game is over or paused
 	private GameStateManager gsm;
-	//ImageManager used to hold all the images in the game
-	private ImageManager im;
 
 	//Constructor
 	public GamePanel() {
