@@ -166,7 +166,6 @@ public class GameStateManager {
 		levels[level].reset();
 		state = GAMESTATE;
 		GameOverMenu.once = false;
-		System.out.println("2");
 	}
 
 	public static void restartGame(){

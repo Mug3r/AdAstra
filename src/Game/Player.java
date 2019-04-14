@@ -171,7 +171,7 @@ public class Player extends MapObject {
 	public void setLt(boolean b) {lt = b;}
 	public void setRt(boolean b) {rt = b;}
 	public void setFiring(boolean b){firing = b;}
-	public void increasePower(int a){power += a; System.out.println(power);}
+	public void increasePower(int a){power += a;}
 
 	public void setBulletDelay(int a){tt = a;}
 }
